@@ -530,5 +530,9 @@ def metr_visitante(req):
         )
     }
     
-    
+### Busca Admin
+
+@myApp.route('/busca_admin')
+def busca_admin():
+    return render_template('busca_admin.html')
 
