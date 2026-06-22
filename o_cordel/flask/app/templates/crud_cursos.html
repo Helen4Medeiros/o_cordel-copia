@@ -1,0 +1,50 @@
+{% extends "base_admin.html" %}
+
+{% block head %}
+  <script>
+    function confirmar(nomeCurso){
+      if (!window.confirm('Confirmar exclusão do curso ' + nomeCurso + '?')) {
+        event.preventDefault(); // cancela submissão
+      }
+    }
+  </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+      <h2>{{ 'Alterar' if form.id.data else 'Novo'  }} curso</h2>
+      <form method="post" action="{{ url_for('salvar_curso') }}" novalidate>
+        {{ form.hidden_tag() }}
+        {{ form.id() }}
+        <p>
+          {{ form.nome.label }}<br>
+          {{ form.nome() }}<br>
+          {% for error in form.nome.errors %}
+            <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.submit() }}
+        </p>
+      </form>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Curso</th>
+          <th>Alterar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for cur in cursos %}
+        <tr>
+          <td>{{ cur.nome }}</td>
+          <td><a href="{{ url_for('alterar_curso', id=cur.id) }}">Alterar</a></td>
+          <td><a href="{{ url_for('excluir_curso', id=cur.id) }}" onclick="confirmar('{{cur.nome}}')">Excluir</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}

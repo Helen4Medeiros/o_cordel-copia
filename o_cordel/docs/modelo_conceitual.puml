@@ -1,0 +1,31 @@
+@startuml
+hide empty methods
+entity Cordel{
+  título
+  subtítulo
+  destaque : bool
+  data de publicação
+  data de cadastro
+  capa : imagem
+}
+entity Página{
+  numero : inteiro
+  estrofes : texto
+}
+entity Curso{
+  nome
+}
+entity Autor{
+  nome
+  contato
+  pseudônimo
+}
+entity Categoria{
+  nome
+}
+Cordel "1" *-- "1..*" Página
+Cordel "*" -- "1..*" Autor
+Cordel "*" -- "*" Categoria
+Autor "*" -- "*" Curso
+' visite plantuml.com para gerar o diagrama
+@enduml

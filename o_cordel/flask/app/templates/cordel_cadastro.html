@@ -1,0 +1,248 @@
+{% extends "base_admin.html" %}
+
+{% block head %}
+  <style>
+    #capaConteiner {
+      display: none; /* Inicialmente escondido */
+    }
+    .capa {
+      margin-top: 20px;
+      border: 2px dashed #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      max-width: 300px; /* Limita o tamanho da pré-visualização */
+    }
+    .capa img {
+      max-width: 100%; /* Garante que a imagem não ultrapasse o container */
+      height: auto;
+      display: block; /* Remove espaço extra abaixo da imagem */
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const autorInput = document.getElementById('pesquisa_autor');
+      const autoresSelecionadosUl = document.getElementById('lista_autores_selecionados');
+      const autoresDatalist = document.getElementById('dl_autores');
+      const formulario = document.getElementsByTagName('form')[0];
+      const imgPreview = document.getElementById('capaPreview');
+      const imgContainer = document.getElementById('capaConteiner');
+      const btnRemoveImagem = document.getElementById('removeImagem');
+      let atualizarDataListTimeout;
+
+      // função para exibir uma prévia da imagem de capa selecionada
+      const imgUpload = document.getElementById('capa');
+      imgUpload.addEventListener('change', function() {
+        const arquivo = this.files[0];
+        if (arquivo) {
+          const leitor = new FileReader();
+          leitor.onload = function(e) {
+            imgPreview.src = e.target.result;  // Define o src da imagem
+            imgContainer.style.display = 'block'; // Exibe o container
+            btnRemoveImagem.style.display = 'inline-block'; // Exibe o botão de remover
+          };
+          leitor.readAsDataURL(arquivo); // Lê o arquivo como uma URL Data
+        } else {
+          imgPreview.src = '#'; // Limpa o src da imagem
+          previewContainer.style.display = 'none'; // Esconde o container
+          btnRemoveImagem.style.display = 'none'; // Esconde o botão
+        }
+      });
+
+      btnRemoveImagem.addEventListener('click', function() {
+        imgUpload.value = ''; // Limpa o campo de upload
+        imgPreview.src = '#'; // Limpa a pré-visualização
+        imgContainer.style.display = 'none'; // Esconde o container
+        btnRemoveImagem.style.display = 'none'; // Esconde o botão de remover
+      });
+      
+      // Insere items no elemento UL que exibe os autores selecionados
+      for (let hidden of document.getElementsByName('autores')){
+        const charIndex = hidden.value.indexOf(":");
+        nomeAutor = hidden.value.substring(charIndex + 1);
+        idAutor = hidden.value.substring(0, charIndex);
+        adicionarAutorNaUL(nomeAutor, hidden);
+      }
+
+      function adicionarAutorNaUL(nomeAutor, hiddenElement){
+        // cria e adiciona um novo item ao elemento ul
+        const listItem = document.createElement('li');
+        listItem.textContent = nomeAutor;
+        autoresSelecionadosUl.appendChild(listItem);
+        // cria, e adiciona ao item da lista, um botão que 
+        // permite remover o item e o elemento hidden associado
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button-small';
+        removeButton.textContent = 'x';
+        listItem.appendChild(removeButton);
+        listItem.hiddenAssociado = hiddenElement;
+        removeButton.onclick = function() {
+          this.parentNode.remove(); //remove o item do elemento ul
+          this.parentNode.hiddenAssociado.remove() // remove o hidden
+        };
+      }
+      
+      function adicionarAutorComoHidden(idAutor, nomeAutor){
+        // cria e adiciona um elemento hidden com o id do autor selecionado
+        const hiddenElement = document.createElement('input');
+        hiddenElement.type = 'hidden';
+        hiddenElement.name = 'autores';
+        hiddenElement.value = idAutor + ':' + nomeAutor;
+        formulario.appendChild(hiddenElement);
+        return hiddenElement;
+      }
+
+      function atualizarDataList(termoDeBusca){
+        autoresDatalist.innerHTML = '';
+        if(termoDeBusca.length >= 3){
+          // busca autores no servidor
+          const url = "{{ url_for('autores_por_nome_json') }}" + '?nome=' + termoDeBusca;
+          (async () => {
+            const res = await fetch(url);
+            autores = await res.json();
+            // obtém IDs dos autores selecionados previamente
+            idsAtuais = [];
+            for (let hidden of document.getElementsByName('autores')){
+              const charIndex = hidden.value.indexOf(":");
+              idAutor = hidden.value.substring(0, charIndex);
+              idsAtuais.push(idAutor);
+            }
+            // atualiza datalist
+            for(let idAutor in autores){
+              if(!idsAtuais.includes(idAutor)){
+                const optionElement = document.createElement('option');
+                optionElement.value = autores[idAutor] + '\u2063'; //nome do autor
+                optionElement.setAttribute('data-id' , idAutor);
+                autoresDatalist.appendChild(optionElement);
+              }
+            }
+          })();
+        }
+      }
+
+      autorInput.addEventListener('input', function() {
+        // verifica se o valor atual do input termina com o 
+        // caractere \u2063 como forma de indentificar que uma 
+        // opção do datalistfoi selecionada
+        if (this.value.slice(-1) === '\u2063') {
+          // obtém o data-id da opção selecionada no datalist
+          let idAutor = null;
+          for (let option of autoresDatalist.options) {
+            if(option.value === this.value){
+              idAutor = option.getAttribute('data-id');
+              break;
+            }
+          }
+          if (!idAutor)
+            return;
+          // atualiza o valor do input removendo o último caractere
+          // do valor atual
+          this.value = this.value.slice(0, -1);
+          hiddenCriado = adicionarAutorComoHidden(idAutor, this.value)
+          adicionarAutorNaUL(this.value, hiddenCriado);
+          // limpa input
+          this.value = '';
+          // limpa datalist
+          autoresDatalist.innerHTML = '';
+        }
+        else{ // digitação do usuário
+          clearTimeout(atualizarDataListTimeout);
+          atualizarDataListTimeout = setTimeout(
+            atualizarDataList, 
+            800, 
+            this.value
+          );
+        }
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+      <form method="post" action="{{ url_for('salvar_cordel') }}" enctype="multipart/form-data" novalidate>
+        {{ form.csrf_token }}
+        {{ form.id() }}
+        {{ form.autores() }}
+        <p>
+          {{ form.titulo.label }}<br>
+          {{ form.titulo() }}<br>
+          {% for error in form.titulo.errors %}
+          <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.subtitulo.label }}<br>
+          {{ form.subtitulo() }}<br>
+          {% for error in form.subtitulo.errors %}
+          <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.pesquisa_autor.label }}<br>
+          {{ form.pesquisa_autor(list='dl_autores') }}
+        </p>
+          <datalist id="dl_autores">
+          </datalist>
+          <ul id="lista_autores_selecionados">
+          </ul>
+        <p>
+          {% for error in form.autores.errors %}
+          <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.id_categorias.label }}<br>
+          {{ form.id_categorias() }}<br>
+          {% for error in form.id_categorias.errors %}
+          <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.em_destaque() }}
+          {{ form.em_destaque.label }}
+        </p>
+        <p>
+          {{ form.visivel() }}
+          {{ form.visivel.label }}
+        </p>
+        <p>
+          {{ form.data_publicacao.label }}<br>
+          {{ form.data_publicacao() }}<br>
+          {% for error in form.data_publicacao.errors %}
+          <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+        </p>
+        <div>
+          <p>
+          {{ form.capa.label }}<br>
+          {{ form.capa(accept="image/*") }}
+          </p>
+          <div id="capaConteiner" class="capa"> <!-- para visualizar a imagem selecionada -->
+            <img id="capaPreview" src="#"><br>
+            <button type="button" id="removeImagem">Remover Imagem</button>
+          </div>
+          {% if request.view_args['tem_capa'] %}
+          <div class="capa">
+            <p>Capa atual</p>
+            <img src="{{ url_for('capa_cordel', id=request.view_args['id']) }}" alt="capa atual">
+          </div>
+          {% else %}
+          <div class="capa">
+            <p>Sem capa cadastrada</p>
+          {% endif %}
+        </div>
+        <p>
+          {{ form.estrofes.label }}
+          <span class="dica_estrofes">(use o marcador <strong>##pagina##</strong> 
+          para indicar o início de uma nova página)</span><br>
+          {{ form.estrofes(rows='20', cols='40') }}<br>
+          {% for error in form.estrofes.errors %}
+          <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.submit() }}
+        </p>
+      </form>
+    </div>
+{% endblock %}

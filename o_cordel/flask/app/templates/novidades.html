@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .titulo-pagina {
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .titulo-pagina h2 {
+        font-size: 1.5rem;
+        text-align: center;
+        letter-spacing: 0.1em;
+        margin: 0 0 0.75rem 0;
+    }
+
+    .titulo-pagina .linha {
+        border: none;
+        border-top: 3px solid #000;
+        margin: 0;
+        width: 100%;
+    }
+</style>
+
+<main class="novidades">
+    <section class="titulo-pagina">
+        <h2>NOVIDADES</h2>
+        <hr class="linha">
+    </section>
+
+    {% include 'nov-components/carrossel.html' %}
+    {% include 'nov-components/separador.html' %}
+    {% include 'nov-components/novidades-lista.html' %}
+</main>
+{% endblock %}

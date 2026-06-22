@@ -1,0 +1,51 @@
+services:
+  # docker compose --env-file .env.dev up --attach-dependencies web_dev
+  # docker compose --env-file .env.dev up 
+  web_dev:
+    image: cordel_web_dev
+    build:
+      target: dev
+    container_name: cordel_web_dev
+    ports:
+      - "80:5000"    # porta da aplicação
+      - "5678:5678"  # porta para o depurador Python
+    depends_on:
+      - db
+      - pgadmin
+    env_file: .env.dev
+    environment:
+      DATABASE_HOST: cordel_db
+      DATABASE_PORT: 5432
+      DATABASE_USER: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_NAME: ${POSTGRES_DB}
+    volumes:
+      - .:/usr/src/cordel/  # faz com que as alterações no código fonte sejam sincronizadas com o contêiner
+
+  db:
+    image: postgres:18.4
+    container_name: cordel_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql_cordel/data
+
+  pgadmin:
+    image: dpage/pgadmin4:9.8.0
+    container_name: cordel_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: 6500
+    ports:
+      - "8080:6500"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

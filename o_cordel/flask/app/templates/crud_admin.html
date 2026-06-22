@@ -1,0 +1,72 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    
+    <h2>{{ 'Alterar' if form.id.data else 'Novo'  }} Administrador {{form.nome.data}}</h2>
+    <form action="{{ url_for('salvar_admin') }}" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.id() }}
+        <p>
+            {{ form.nome.label }}
+            {{ form.nome() }}
+        </p>
+        {% if form.id.data %}
+            <p>Nova
+                {{ form.password.label }}
+                {{ form.password() }}
+            </p>
+            <p>
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password() }}
+            </p>         
+        {% else %}
+            <p>
+                {{ form.password.label }}
+                {{ form.password() }}
+            </p>
+            <p>
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password() }}
+            </p>         
+        {% endif %}
+        
+        <p>
+            {{ form.matricula.label }}
+            {{ form.matricula() }}
+        </p>
+        <p>
+            {{ form.ativo.label }}
+            {{ form.ativo() }}
+        </p>
+            {% for error in form.errors %}
+                <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+
+        <p>
+            {{ form.submit() }}
+        </p>
+    </form>
+
+
+    <table>
+        <thead>
+            <th>id</th>
+            <th>Nome</th>
+            <th>Ativo</th>
+            <th>Alterar</th>
+            <th>Excluir</th>
+        </thead>
+        <tbody>
+            {% for admin in administradores %}
+            <tr>
+                <td>{{admin.id}}</td>
+                <td>{{admin.nome}}</td>
+                <td>{{'SIM' if admin.ativo==1 else 'NÂO'}}</td>
+                <td><a href="{{ url_for('alterar_admin', id=admin.id) }}">Alterar</a></td>
+                <td><a href="{{ url_for('excluir_admin', id=admin.id) }}">Excluir</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock content %}

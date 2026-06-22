@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <style>
+  </style>
+  <script>
+  </script>
+{% endblock %}
+
+{% block content %}
+  <header class="cordel-cabecalho">
+    {% for a in cordel.autores %}
+    <p>{{ a.pseudonimo if a.pseudonimo else a.nome }}</p>
+    {% endfor %}
+    <h1>{{ cordel.titulo }}</h1>
+    <h2>{{ cordel.subtitulo }}</h2>
+  </header>
+  <article id="conteudo" class="cordel">
+    <section id="pg_0" class="pagina">
+      <figure id="container-capa">
+        {% if cordel.mime_type_capa %}
+          <img src="{{ url_for('capa_cordel', id=cordel.id) }}" alt="Imagem de capa">
+        {% else %}
+          <h3>SEM CAPA</h3>
+        {% endif %}
+      </figure>
+    </section>
+    {% for p in cordel.paginas %}
+    <section id="{{ 'pg_' + p.numeracao|string() }}" class="pagina">
+      <p class="estrofe">{{ p.estrofes | nl2br }}</p>
+      <p class="numeracao">{{ p.numeracao }}</p>
+    </section>
+    {% endfor %}
+  </article>
+{% endblock %}

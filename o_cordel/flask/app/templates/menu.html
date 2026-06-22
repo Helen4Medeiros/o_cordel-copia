@@ -1,0 +1,17 @@
+  <nav class="menu">
+    <img class="estrela" src="{{ url_for('static', filename='estrela.png') }}">
+    <ul>
+      <li>Categorias</li> <!-- usuario -->
+      <li>Autores</li>
+      <li><a href="{{ url_for('cordel_pesquisa') }}">Pesquisar Cordéis</a></li>
+      <li>Sobre Nós</li>
+      {% if current_user.is_authenticated %}
+      <li><a href="{{ url_for('cordel_cadastro') }}">Cadastrar Cordel</a></li> <!-- admin -->
+      <li><a href="{{ url_for('crud_autores') }}">Autores</a></li>
+      <li><a href="{{ url_for('crud_categorias') }}">Categorias</a></li>
+      <li><a href="{{ url_for('crud_cursos') }}">Cursos</a></li>
+      <li><a href="{{ url_for('crud_admin') }}">Administradores</a></li>
+      <li><a href="{{ url_for('logout') }}">Sair</a></li>
+      {% endif %}
+    </ul>
+  </nav>

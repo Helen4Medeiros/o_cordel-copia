@@ -1,0 +1,95 @@
+{% extends "base_admin.html" %}
+
+{% block head %}
+  <script>
+    function confirmar(nomeAutor){
+      if (!window.confirm('Confirmar exclusão do autor ' + nomeAutor + '?')) {
+        event.preventDefault(); // cancela submissão
+      }
+    }
+  </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+      <h2>{{ 'Alterar' if formAutor.id.data else 'Novo'  }} autor</h2>
+      <form method="post" action="{{ url_for('salvar_autor') }}" novalidate>
+        {{ formAutor.hidden_tag() }}
+        {{ formAutor.id() }}
+        <p>
+          {{ formAutor.nome.label }}<br>
+          {{ formAutor.nome() }}<br>
+          {% for error in formAutor.nome.errors %}
+            <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ formAutor.pseudonimo.label }}<br>
+          {{ formAutor.pseudonimo() }}<br>
+        </p>
+        <p>
+          {{ formAutor.contato.label }}<br>
+          {{ formAutor.contato() }}<br>
+        </p>
+        <p>
+          {{ formAutor.id_cursos.label }}<br>
+          {{ formAutor.id_cursos() }}<br>
+        </p>
+        <p>
+          {{ formAutor.submit() }}
+        </p>
+      </form>
+    </div>
+
+    <div>
+      <h2>Pesquisa de Autores</h2>
+      <form method="post" action="{{ url_for('pesquisar_autores') }}" novalidate>
+        {{ formPesquisa.hidden_tag() }}
+        <p>
+          {{ formPesquisa.nome_ou_pseudonimo.label }}<br>
+          {{ formPesquisa.nome_ou_pseudonimo() }}<br>
+        </p>
+        <p>
+          {{ formPesquisa.id_curso.label }}<br>
+          {{ formPesquisa.id_curso() }}<br>
+        </p>
+        {% for field, errors in formPesquisa.errors.items() %}
+        <span style="color: red;">{{ ', '.join(errors) }}</span>
+        {% endfor %}
+        <p>
+          {{ formPesquisa.submit() }}
+        </p>
+      </form>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Pseudônimo</th>
+          <th>Contato</th>
+          <th>Cursos</th>
+          <th>Alterar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for a in autores %}
+        <tr>
+          <td>{{ a.nome }}</td>
+          <td>{{ a.pseudonimo }}</td>
+          <td>{{ a.contato }}</td>
+          <td>
+            <ul>
+              {% for c in a.cursos %}
+              <li>{{ c.nome }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td><a href="{{ url_for('alterar_autor', id=a.id) }}">Alterar</a></td>
+          <td><a href="{{ url_for('excluir_autor', id=a.id) }}" onclick="confirmar('{{a.nome}}')">Excluir</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}

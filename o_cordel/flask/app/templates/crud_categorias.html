@@ -1,0 +1,51 @@
+{% extends "base_admin.html" %}
+
+{% block head %}
+  <script>
+    function confirmar(nomeCategoria){
+      if (!window.confirm('Confirmar exclusão da categoria ' + nomeCategoria + '?')) {
+        event.preventDefault(); // cancela submissão
+      }
+    }
+  </script>
+{% endblock %}
+
+{% block content %}
+  <div>
+    <h2>{{ 'Alterar' if form.id.data else 'Nova'  }} categoria</h2>
+  <form method="post" action="{{ url_for('salvar_categoria') }}" novalidate>
+    {{ form.hidden_tag() }}
+    {{ form.id() }}
+    <p>
+      {{ form.nome.label }}<br>
+      {{ form.nome() }}<br>
+      {% for error in form.nome.errors %}
+        <span style="color: red;">{{ error }}</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.submit() }}
+    </p>
+  </form>
+  </div>
+
+  <table>
+  <thead>
+    <tr>
+      <th>Categoria</th>
+      <th>Alterar</th>
+      <th>Excluir</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for cat in categorias %}
+    <tr>
+      <td>{{ cat.nome }}</td>
+      <td><a href="{{ url_for('alterar_categoria', id=cat.id) }}">Alterar</a></td>
+      <td><a href="{{ url_for('excluir_categoria', id=cat.id) }}" onclick="confirmar('{{cat.nome}}')">Excluir</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+
+{% endblock %}

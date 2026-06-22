@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt_br">
+  <head>
+    <title>Ô Cordel - {{ titulo }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="copyright" content="IFRN">
+    <meta name="keywords" content="cordel, IFRN, ensino">
+    <meta http-equiv="Content-Language" content="pt_br" />
+    <link href='{{ url_for('static', filename='xilosa_.ttf') }}' rel='stylesheet' type='text/css'>
+    <link href='{{ url_for('static', filename='Robot-Bold.ttf') }}' rel='stylesheet' type='text/css'>
+    <link href='{{ url_for('static', filename='Robot-BoldItalic.ttf') }}' rel='stylesheet' type='text/css'>
+    <link href='{{ url_for('static', filename='Robot-Italic.ttf') }}' rel='stylesheet' type='text/css'>
+    <link href='{{ url_for('static', filename='Robot-Regular.ttf') }}' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" rel='stylesheet' type='text/css'> 
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    {% include 'menu.html' %}
+
+    {% block content %}{% endblock %}
+  </body>
+</html>
