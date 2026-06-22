@@ -64,23 +64,25 @@ def novidades():
     lista_de_novidades = [
         {
             "titulo": "SECITEX IX",
-            "descricao": "Convidamos toda a comunidade para prestigiar o projeto...",
-            "imagem": "ilustracao-1.jpg"
+            "descricao": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         },
         {
             "titulo": "RETIRADA",
-            "descricao": "Lamentamos informar que o cordel foi retirado...",
-            "imagem": None  
+            "descricao": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        },
+        {
+            "titulo": "TITULO 3",
+            "descricao": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 
         }
     ]
     falso_destaque = [
         {
-            "titulo": "Título de Teste do Carrossel",
+            "titulo": "Título de Teste",
             "descricao": "Testando o layout",
             "imagem": "ilustracao-1.png"
         },
         {
-            "titulo": "Segundo Destaque",
+            "titulo": "Titulo de Teste 2",
             "descricao": "Testando a troca de slide",
             "imagem": "ilustracao-1.png"
         }
