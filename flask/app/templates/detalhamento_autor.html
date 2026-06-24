@@ -1,0 +1,369 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Puritan:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "xilosa";
+        }
+
+        h1 {
+            text-align: center;
+            margin: 2rem 1rem 0.5rem 0rem;
+        }
+
+        hr {
+            margin: 0 auto;
+            height: 1.5px;
+            width: 72.3%;
+            background-color: black;
+            border: none;
+            margin-bottom: 4rem;
+        }
+
+
+        .containerPrincipal {
+            margin: 0 auto;
+            width: 1100px;
+            height: 600px;
+            background-color: #F3AEA5;
+        }
+
+
+        .containerRelacionados {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: nowrap;
+            overflow-y: hidden;
+            overflow-x: scroll;
+            height: 202px;
+            width: 1230px;
+            margin: 0 auto;
+
+        /* Hides scrollbar for Firefox */
+        scrollbar-width: none;
+
+        /* Hides scrollbar for IE and old Edge */
+        -ms-overflow-style: none;  
+        }
+
+        .containerRelacionados::-webkit-scrollbar {
+            display: none; /* Esconde a barra no Chrome, Safari e Edge moderno */
+        }
+
+        .cardCordelistaRelacionado {
+            border: 0.5px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            width: 400px;
+            height: 200px;
+            background-color: aquamarine;
+        }
+
+        .fotoCordelistaRelacionado {
+            width: 60%;
+            height: 10rem;
+            border: 0.5px solid black;
+        }
+
+        .containerCardCordelista {
+            display: flex;
+            gap: 15px;
+            width: 90%;
+        }
+
+        .infoCordelista {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: justify;
+        }
+
+        section h2{
+            padding-bottom: 1rem;
+            width: 1230px;
+            margin: 0 auto; 
+        }
+
+        section {
+            margin: 4rem;
+        }
+
+        footer p{
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .cardContainer{
+            display: flex;
+            margin: 3rem; 
+            gap: 2rem;
+            border: 1px solid black;
+            padding: 2rem;
+        }
+
+        .containerPrincipal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .infoCordelistaPrincipal {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            height: 450px;
+            align-self: center;
+        }
+
+        #descricao {
+            font-family: "puritan";
+            font-size: larger;
+            text-align: justify;
+        }
+
+        .infoCordelistaPrincipal h3 {
+            font-size: 2rem;
+        }
+
+        .infoCordelistaPrincipal h2 {
+            font-size: 2.75rem;
+        }
+
+        ol {
+            list-style-type: none;
+            display: flex;
+            gap: 1rem;
+        }
+
+        ol li {
+            color: white;
+            background-color: black;
+            padding: 0.3rem 0.5rem;
+            border-radius: 15px;
+        }
+
+        button {
+            background-color: #C4D0AB;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.4rem;
+            gap: 0.2rem;
+            margin-top: auto;
+            width: 17rem;
+            font-size: 1.3rem;
+            border: 1px solid black;
+        }
+
+        div h3 {
+            margin-top: 20px
+        }
+
+        #matricula {
+            display: flex;
+            gap: 0.3rem;
+            align-items: center;
+        }
+
+    </style>
+
+
+
+</head>
+<body>         
+
+    <!-- DUVIDA: h1, h2... -->
+
+    <h1>AUTORES</h1>
+
+    <hr>
+
+<main>
+
+    <div class="containerPrincipal">
+        <div class="borda">
+            <div class="cardContainer">
+                <img src="{{ url_for('static', filename='img/autora.png') }}" alt="">
+                <div class="infoCordelistaPrincipal">
+                    <h2>Maria Helena Cunha de Medeiros</h2>
+                    <p style="margin-top: -0.5rem;">Um encanto de cordel</p>
+                    <p id="matricula"><img style="width: 24px" src="{{ url_for('static', filename='img/olho.svg') }}" alt="">20241011110013</p>
+                    <p style="font-weight: bold;">Juntou-se ao projeto em 03/09/2016</p>
+                    <ol>
+                        <li>CAV</li>
+                        <li>Contato: (84) 99123-4567</li>
+                    </ol>
+                    <h3>Descrição</h3>
+                    <p id="descricao">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, exercitationem. Doloremque quasi molestias corrupti hic explicabo nobis architecto cum unde nostrum nam labore inventore, velit dolor, error fugiat in qui.</p>
+                    <button><img src="{{ url_for('static', filename='img/seta.svg') }}" alt="">Ver cordéis do autor</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<section>
+    <h2>Autores relacionados</h2>
+
+    <!-- AQUIIIIIIIIIIIIIIIIIIIIIII -->
+    <div class="containerRelacionados"></div>
+</section>
+
+
+
+</main>
+
+    <footer>
+        <p>@2024 All Rights Reserved</p>
+    </footer>
+
+    <script>
+
+const cordelistas = [
+    {
+        nome: "Sofia Mendes",
+        frasePequena: "Um encanto de Cordel",
+        matricula: "202410111100XX",
+        dataEntradaProjeto: "20/06/2026",
+        curso: "INFOWEB",
+        contato: "(84) 99123-45678",
+        foto: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=500&fit=crop",
+        descricao: "Estudante apaixonada por literatura que adora rabiscar rimas no caderno e está descobrindo o encanto das métricas do cordel."
+    },
+    {
+        nome: "Pedro Alves",
+        frasePequena: "Um encanto de Cordel",
+        matricula: "202410111100XX",
+        dataEntradaProjeto: "20/06/2026",
+        curso: "INFOWEB",
+        contato: "(84) 99123-45678",
+        foto: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=500&fit=crop",
+        descricao: "O artista da turma, que ama desenhar e está se aventurando na arte da xilogravura para dar vida às capas dos folhetos."
+    },
+    {
+        nome: "Juliana Rocha",
+        frasePequena: "Um encanto de Cordel",
+        matricula: "202410111100XX",
+        dataEntradaProjeto: "20/06/2026",
+        curso: "INFOWEB",
+        contato: "(84) 99123-4567",
+        foto: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&h=500&fit=crop",
+        descricao: "Curiosa e leitora assídua, adora pesquisar as antigas histórias e causos do sertão para transformar em temas de projetos escolares."
+    },
+    {
+        nome: "Thiago Silva",
+        frasePequena: "Um encanto de Cordel",
+        matricula: "202410111100XX",
+        dataEntradaProjeto: "20/06/2026",
+        curso: "INFOWEB",
+        contato: "(84) 99123-45678",
+        foto: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=500&fit=crop",
+        descricao: "Conhecido por criar repentes de improviso nos intervalos das aulas, traz o humor e a sátira jovem para os textos do grupo."
+    },
+    {
+        nome: "Camila Barros",
+        frasePequena: "Um encanto de Cordel",
+        matricula: "202410111100XX",
+        dataEntradaProjeto: "20/06/2026",
+        curso: "INFOWEB",
+        contato: "(84) 99123-45678",
+        foto: "https://images.unsplash.com/photo-1554151228-14d9def656e4?w=300&h=500&fit=crop",
+        descricao: "Poetisa dedicada que escreve versos inspiradores sobre a força da juventude e a beleza das tradições do nosso povo."
+    },
+    {
+        nome: "Felipe Gomes",
+        frasePequena: "Um encanto de Cordel",
+        matricula: "202410111100XX",
+        dataEntradaProjeto: "20/06/2026",
+        curso: "INFOWEB",
+        contato: "(84) 99123-45678",
+        foto: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=300&h=500&fit=crop",
+        descricao: "Adora declamar poesia e está super empolgado em aprender como levar a tradição do cordel físico para as telas e para o mundo digital."
+    }
+];
+
+    // CARD SCROLLING
+
+    const containerRelacionados = document.querySelector('.containerRelacionados');
+
+    for (let cordelista of cordelistas){
+        let nomeCordelista = document.createElement("h3");
+        nomeCordelista.textContent = cordelista.nome;
+
+        let fotoCordelista = document.createElement("img");
+        fotoCordelista.src = cordelista.foto;
+
+        let descricaoCordelista = document.createElement("p");
+        descricaoCordelista.textContent = cordelista.descricao;
+
+        const cardCordelista = document.createElement("div");
+        const infoCordelista = document.createElement("div");
+        const containerCardCordelista = document.createElement("div");
+    
+        fotoCordelista.classList.add("fotoCordelistaRelacionado");
+        infoCordelista.classList.add("infoCordelista")
+        cardCordelista.classList.add("cardCordelistaRelacionado");
+        containerCardCordelista.classList.add("containerCardCordelista")
+
+
+        infoCordelista.appendChild(nomeCordelista)
+        infoCordelista.appendChild(descricaoCordelista)
+
+        containerCardCordelista.appendChild(fotoCordelista)
+        containerCardCordelista.appendChild(infoCordelista)
+
+        cardCordelista.appendChild(containerCardCordelista)
+        containerRelacionados.appendChild(cardCordelista);
+    }
+
+
+    let isPressed = false;
+    let startX;
+    let scrollLeft;
+
+    // 1. Bloqueia o menu de contexto padrão do botão direito para não abrir aquela janelinha
+    containerRelacionados.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+
+    // 2. Quando aperta o botão do mouse
+    containerRelacionados.addEventListener('mousedown', (e) => {
+        // Verifica se é o botão direito (e.button === 2)
+        if (e.button === 0) {
+        isPressed = true;
+        containerRelacionados.style.cursor = 'grabbing'; // Muda o cursor para a "mãozinha pegando"
+        startX = e.pageX - containerRelacionados.offsetLeft;
+        scrollLeft = containerRelacionados.scrollLeft;
+        }
+    });
+
+    // 3. Quando solta o botão do mouse
+    window.addEventListener('mouseup', (e) => {
+        if (e.button === 0) {
+        isPressed = false;
+        containerRelacionados.style.cursor = 'default'; // Volta o cursor ao normal
+        }
+    });
+
+    // 4. Quando o mouse se move (arrasta)
+    containerRelacionados.addEventListener('mousemove', (e) => {
+        if (!isPressed) return; // Se não estiver segurando o botão direito, não faz nada
+        e.preventDefault();
+        
+        const x = e.pageX - containerRelacionados.offsetLeft;
+        const walk = (x - startX) * 1.5; // Multiplica por mais ou menos para mudar a velocidade
+        containerRelacionados.scrollLeft = scrollLeft - walk;
+    });
+    </script>
+
+{% endblock %}

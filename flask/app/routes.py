@@ -547,3 +547,6 @@ def metr_visitante(req):
     }
     
 
+@myApp.route('/detalhamento_autor')
+def detalhamento_autor():
+    return render_template("detalhamento_autor.html")
