@@ -16,6 +16,7 @@
     .titulo-pagina h2{
         text-align:center;
         letter-spacing:.15em;
+        font-size:1.8rem;
     }
 
     .titulo-pagina .linha{
@@ -32,8 +33,9 @@
         <hr class="linha">
     </section>
 
-    {% include 'nov-components/carrossel.html' %}
-    {% include 'nov-components/separador.html' %}
-    {% include 'nov-components/novidades-lista.html' %}
+    {% include 'components/nov-carrossel.html' %}
+    {% include 'components/nov-separador.html' %}
+    {% include 'components/mural-novidades.html' %}
 </main>
+{% include 'components/footer.html' %}
 {% endblock %}

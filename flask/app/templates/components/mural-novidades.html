@@ -1,0 +1,183 @@
+<style>
+    /* --- CONFIGURAÇÕES DO GRID PRINCIPAL --- */
+    .mural-cordel {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas para os cards verticais */
+        gap: 2rem 2rem;
+        margin: 3rem 0;
+    }
+
+    /* Bloco que agrupa Título + Card de Texto + Imagem Solta */
+    .bloco-noticia {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    /* --- O CARD COLORIDO (APENAS TEXTO) --- */
+    .card-texto-cordel {
+        border: 1px solid #000;
+        padding: 1.2rem;
+        box-sizing: border-box;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+    }
+
+    .card-texto-cordel p {
+        font-family: 'Roboto', sans-serif;
+        font-size: 1.2rem;
+        line-height: 1.6;
+        text-align: justify;
+        margin: 0;
+        color: #000;
+    }
+
+    /* --- AS IMAGENS SOLTAS (FORA DO CARD COLORED) --- */
+    .imagem-solta-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .imagem-solta-wrapper img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        /* Estética de xilogravura solta com bordas levemente suavizadas se necessário */
+        border-radius: 24px; 
+        border: 2px solid #000;
+    }
+
+    /* --- TÍTULOS EXTERNOS --- */
+    .titulo-externo-cordel {
+        font-family: 'Xilosa', sans-serif;
+        font-size: 1.8rem;
+        letter-spacing: 0.15em;
+        margin: 0 0 0.8rem 0;
+    }
+
+    /* --- CORES DE FUNDO (APLICADAS APENAS AO CARD DE TEXTO) --- */
+    .bg-verde { background-color: #9eccb7; }
+    .bg-bege { background-color: #c3c7a5; }
+    .bg-laranja-claro { background-color: #f6c098; }
+    .bg-laranja-escuro { background-color: #f6c098; }
+
+
+    /* ===================================================
+       REGRAS DE DISPOSIÇÃO AUTOMÁTICA (HORIZONTAL/VERTICAL)
+       =================================================== */
+
+    /* 1. SECITEX (Ocupa as 2 colunas. Imagem Solta na Esquerda, Texto na Direita) */
+    .bloco-noticia.horizontal-left {
+        grid-column: span 2;
+    }
+    .bloco-noticia.horizontal-left .conteudo-posicionado {
+        display: flex;
+        flex-direction: row; /* Lado a lado */
+        gap: 1.5rem;
+    }
+    .bloco-noticia.horizontal-left .imagem-solta-wrapper { width: 30%; order: 1; }
+    .bloco-noticia.horizontal-left .titulo-externo-cordel { text-align: left; }
+    .bloco-noticia.horizontal-left .card-texto-cordel { width: 70%; order: 2;  border-left:18px solid #000; }
+    .bloco-noticia.horizontal-left .card-texto-cordel p { text-align:left; }
+
+    /* 2. EXPOSIÇÃO (Ocupa as 2 colunas. Texto na Esquerda, Imagem Solta na Direita) */
+    .bloco-noticia.horizontal-right {
+        grid-column: span 2;
+    }
+    .bloco-noticia.horizontal-right .conteudo-posicionado {
+        display: flex;
+        flex-direction: row;
+        gap: 1.5rem;
+    }
+    .bloco-noticia.horizontal-right .card-texto-cordel { width: 70%; order: 1; border-right:18px solid #000 }
+    .bloco-noticia.horizontal-right .card-texto-cordel p { text-align:right; }
+    .bloco-noticia.horizontal-right .imagem-solta-wrapper { width: 30%; order: 2; }
+    .bloco-noticia.horizontal-right .titulo-externo-cordel { text-align: right; }
+
+
+    /* 3. VERTICAIS (RETIRADA e MANUTENÇÃO - Ficam lado a lado no Grid) */
+    .bloco-noticia.vertical {
+        grid-column: span 1;
+    }
+    .bloco-noticia.vertical .conteudo-posicionado {
+        display: flex;
+        flex-direction: column; /* Empilha o card de texto e a imagem abaixo */
+        gap: 1.5rem;
+    }
+    /* Adiciona a barra preta grossa interna apenas nos cards de texto verticais */
+    .bloco-noticia.vertical .card-texto-cordel {
+        border-top: 18px solid #000;
+        text-align: center;
+    }
+    
+    /* Alinhamentos específicos dos títulos verticais */
+    .bloco-noticia.vertical-left .titulo-externo-cordel { text-align: center; }
+    .bloco-noticia.vertical-left .card-texto-cordel p { text-align: center; }
+    .bloco-noticia.vertical-right .titulo-externo-cordel { text-align: center; }
+    .bloco-noticia.vertical-right .card-texto-cordel p { text-align: center; }
+
+
+    /* --- BANNER DE FECHAMENTO (VILAREJO) --- */
+    .banner-fechamento-mural {
+        grid-column: span 2;
+        display: flex;
+        justify-content: center;
+    }
+    .banner-fechamento-mural img {
+        width: 100%;
+        height: auto;
+        border: 2px solid #000;
+        border-radius: 24px;
+    }
+
+    /* RESPONSIVIDADE PARA CELULAR */
+    @media (max-width: 768px) {
+        .mural-cordel { grid-template-columns: 1fr; }
+        .bloco-noticia.horizontal-left, .bloco-noticia.horizontal-right { grid-column: span 1; }
+        .conteudo-posicionado { flex-direction: column !important; }
+        .imagem-solta-wrapper, .card-texto-cordel { width: 100% !important; order: unset !important; }
+        .titulo-externo-cordel { text-align: left !important; padding: 0 !important; }
+        .banner-fechamento-mural { grid-column: span 1; }
+    }
+</style>
+
+<section class="mural-cordel">
+    {% for noticia in noticias %}
+        
+        {# Lógica para descobrir se o título vertical alinha à esquerda ou direita #}
+        {% set classe_vertical = '' %}
+        {% if noticia.layout_tipo == 'vertical' %}
+            {% if noticia.titulo == 'RETIRADA' %}
+                {% set classe_vertical = 'vertical-left' %}
+            {% else %}
+                {% set classe_vertical = 'vertical-right' %}
+            {% endif %}
+        {% endif %}
+
+        <article class="bloco-noticia {{ noticia.layout_tipo }} {{ classe_vertical }}">
+            
+            <h3 class="titulo-externo-cordel">{{ noticia.titulo }}</h3>
+
+            <div class="conteudo-posicionado">
+                
+                <div class="card-texto-cordel {{ noticia.tema_cor }}">
+                    <p>{{ noticia.conteudo }}</p>
+                </div>
+
+                {% if noticia.imagem_url %}
+                <div class="imagem-solta-wrapper">
+                    <img src="{{ url_for('static', filename='img/' + noticia.imagem_url) }}" alt="Ilustração para {{ noticia.titulo }}">
+                </div>
+                {% endif %}
+
+            </div>
+
+        </article>
+    {% endfor %}
+
+    <div class="banner-fechamento-mural">
+        <img src="{{ url_for('static', filename='img/ilustracao-4.png') }}" alt="Vilarejo em Xilogravura">
+    </div>
+</section>
