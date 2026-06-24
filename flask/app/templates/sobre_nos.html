@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <style>
+        .main-layout{
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+        .container{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-areas:
+                "quem-s-n quem-s-n oq-f onde-e"
+                "como-t-c como-p-f como-p-f onde-e";
+            grid-auto-rows: 350px;
+            margin-top: 30px;
+            width: 100%;
+        }
+        .container .card {
+            height: 100%;
+            border: 1px solid black;
+        }
+        .texto-index{
+            max-width: 600px;
+        }
+        h2{
+            color: white;
+        }
+        .descricao {
+            opacity: 0;
+            transition: 0.4s;
+            position: absolute;
+            bottom: 20px;
+            left: 10px;
+            right: 10px;
+        }
+        
+        .card {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            transition: 0.4s;
+        }
+        .card h2{
+            margin-bottom: 200px;
+            transition: 0.4s;
+        }
+        .card:hover h2{
+            font-size: 20px;
+            margin: 0px;
+        }
+        .card:hover {
+            background-blend-mode: darken;
+            background-color: rgba(0,0,0,0.45);
+        }
+        .card:hover .descricao {
+            opacity: 1;
+        }
+        .quem-s-n{
+            grid-area: quem-s-n;
+            background-image: url("{{ url_for('static', filename='img/imagem-cordel-2.png') }}");
+            background-size: cover;
+            background-position: center;
+        }
+        .como-t-c{
+            grid-area: como-t-c;
+            background-image: url("{{ url_for('static', filename='img/imagem-cordel-1.png') }}");
+            background-size: cover;
+            background-position: center;
+        }
+        .como-p-f{
+            grid-area: como-p-f;
+            background-image: url("{{ url_for('static', filename='img/imagem-cordel-3.png') }}");
+            background-size: cover;
+            background-position: center;
+        }
+        .oq-f{
+            grid-area: oq-f;
+            background-image: url("{{ url_for('static', filename='img/imagem-cordel-4.png') }}");
+            background-size: cover;
+            background-position: center;
+        }
+        .onde-e{
+            grid-area: onde-e;
+            background-image: url("{{ url_for('static', filename='img/imagem-cordel-5.png') }}");
+            background-size: cover;
+            background-position: center;
+        }
+        .onde-e h2{
+            margin-bottom: 550px;
+        }
+    </style>
+    <script>
+    </script>
+{% endblock %}
+
+{% block content %}
+    <header class="main-layout">
+        <div class="top-section">
+            <div class="texto-index">
+            <h1>Em Campus de Cordel</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                sed do eiusmod tempor incididunt ut labore et dolore magna 
+                aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                Duis aute irure dolor in reprehenderit in voluptate velit 
+                esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+                occaecat cupidatat non proident, sunt in culpa qui officia 
+                deserunt mollit anim id est laborum.
+                <br>
+            </p>
+            </div>
+            <figure>
+                <img id="logo_index" src="{{ url_for('static', filename='logo.png') }}">
+            </figure>
+        </div>
+        <div class="container">
+            <div class="card quem-s-n">
+                <h2>Quem Somos Nós?</h2>
+                <p class="descricao d1">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Harum saepe, aperiam a obcaecati quisquam vero officia repellendus sed tenetur, temporibus exercitationem fuga molestiae possimus. Itaque sed inventore aliquam odit amet.</p>
+            </div>
+            <div class="card como-t-c">
+                <h2>Como Tudo Começou?</h2>
+                <p class="descricao d2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit ducimus odio soluta tempora sed laboriosam eveniet similique itaque quisquam deserunt! Fuga laudantium, natus quas eligendi veritatis velit in sequi id!</p>
+            </div>
+            <div class="card como-p-f">
+                <h2>Como o Projeto Funciona?</h2>
+                <p class="descricao d3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat qui maiores, repellat esse itaque amet aut iure quod sed culpa labore, magni laboriosam molestias ratione reiciendis corporis adipisci tempora aliquid.</p>
+            </div>
+            <div class="card oq-f">
+                <h2>O que fazemos?</h2>
+                <p class="descricao d4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio at pariatur et ipsam, iure blanditiis repudiandae velit doloremque sit commodi delectus illum maxime provident vero reprehenderit mollitia iusto. Amet, magnam?</p>
+            </div>
+            <div class="card onde-e">
+                <h2>Onde Estamos?</h2>
+                <p class="descricao d5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error eum facere odit saepe iure aut, dicta, fuga soluta cumque consequatur distinctio nemo nisi quibusdam provident laudantium quas exercitationem, aliquam iste.</p>
+            </div>p
+        </div>
+    </header>
+{% endblock %}

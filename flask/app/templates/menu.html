@@ -4,7 +4,7 @@
       <li>Categorias</li> <!-- usuario -->
       <li>Autores</li>
       <li><a href="{{ url_for('cordel_pesquisa') }}">Pesquisar Cordéis</a></li>
-      <li>Sobre Nós</li>
+      <li><a href="{{ url_for('sobre_nos') }}">Sobre Nós</a></li>
       {% if current_user.is_authenticated %}
       <li><a href="{{ url_for('cordel_cadastro') }}">Cadastrar Cordel</a></li> <!-- admin -->
       <li><a href="{{ url_for('crud_autores') }}">Autores</a></li>
