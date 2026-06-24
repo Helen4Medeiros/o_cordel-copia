@@ -12,12 +12,13 @@ class Categoria:
         self.nome = nome
 
 class Autor:
-    def __init__(self, id, nome, pseudonimo, contato, cursos):
+    def __init__(self, id, nome, pseudonimo, contato, cursos, descricao):
         self.id = id
         self.nome = nome
         self.pseudonimo = pseudonimo
         self.contato = contato
         self.cursos = [*cursos] if cursos else []
+        self.descricao = descricao
 
 class Cordel:
     def __init__(self):
