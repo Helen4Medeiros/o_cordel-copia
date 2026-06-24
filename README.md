@@ -6,4 +6,4 @@ Repositório para fins de estudo, testes e criação das interfaces do Projeto �
 - [Sofia Costa](https://github.com/sofiaacost4)
 
 ### Rodar o Docker:
-    docker compose --env-file env.dev up
+    docker compose --env-file .env.dev up
