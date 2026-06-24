@@ -1,0 +1,105 @@
+<style>
+    .footer-cordel {
+        width: 100%;
+        margin: 0 auto;
+        padding: 2rem;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        border-top: 1.5px solid #adadad; 
+    }
+
+    .footer-conteudo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+    }
+
+    .footer-icone {
+        display: flex;
+        align-items: center;
+    }
+    
+    .footer-icone img {
+        height: 40px; 
+        width:auto;
+    }
+    .footer-centro {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .footer-menu {
+        display: flex;
+        gap: 1rem;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .footer-link {
+        display: inline-block;
+        background-color: #000000;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: 'Roboto', sans-serif;
+        font-size: 0.9rem;
+        padding: 0.5rem 1.8rem;
+        border-radius: 50px;
+        transition: background-color 0.2s ease;
+    }
+
+    .footer-link:hover {
+        background-color: #333333;
+    }
+
+    .footer-copyright {
+        font-family: 'Xilosa', sans-serif;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #000000;
+        margin: 0;
+        letter-spacing: 0.05em;
+    }
+    
+
+    @media (max-width: 768px) {
+        .footer-conteudo {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .footer-menu {
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+    }
+</style>
+
+<footer class="footer-cordel">
+    <div class="footer-conteudo">
+        
+        <div class="footer-icone">
+            <img src="{{ url_for('static', filename='logo-2.png') }}" alt="Ícone Cordel">
+        </div>
+
+        <div class="footer-centro">
+            <ul class="footer-menu">
+                <li><a href="/sobre" class="footer-link">Sobre Nós</a></li>
+                <li><a href="/novidades" class="footer-link">Novidades</a></li>
+                <li><a href="/autores" class="footer-link">Autores</a></li>
+            </ul>
+            
+            <p class="footer-copyright">&copy; 2026 - Todos os Direitos Reservados.</p>
+        </div>
+
+        <div class="footer-icone">
+            <img src="{{ url_for('static', filename='diatinf.png') }}" alt="Diatinf">
+        </div>
+
+    </div>
+</footer>

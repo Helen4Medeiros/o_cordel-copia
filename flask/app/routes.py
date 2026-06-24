@@ -64,15 +64,31 @@ def novidades():
     lista_de_novidades = [
         {
             "titulo": "SECITEX IX",
-            "descricao": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "conteudo": "Convidamos toda a comunidade para prestigiar o projeto 'Cordel no Campus: Desenvolvimento de Repositório Digital' na VII Semana de Ciência, Tecnologia e Extensão do IFRN (SECITEX)! Estaremos apresentando nosso trabalho de valorização e preservação da literatura de cordel na modalidade pôster no dia 16 de Outubro...",
+            "imagem_url": "ilustracao-3.png",  
+            "layout_tipo": "horizontal-left",
+            "tema_cor": "bg-verde"
+        },
+        {
+            "titulo": "EXPOSIÇÃO",
+            "conteudo": "É com grande satisfação que o projeto 'Cordel no Campus' anuncia a realização de sua Exposição Anual na próxima sexta-feira, prometendo ser um dia inteiro dedicado à rica cultura da literatura de cordel. O evento acontecerá em um dos pontos mais movimentados e acessíveis do IFRN Natal-Central, o Pátio das Rosquinhas...",
+            "imagem_url": "ilustracao-2.png",
+            "layout_tipo": "horizontal-right",
+            "tema_cor": "bg-bege"
         },
         {
             "titulo": "RETIRADA",
-            "descricao": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "conteudo": "Lamentamos informar que o cordel 'Encanto de Cordel' foi temporariamente retirado do repositório por estar em revisão do autor. Em breve estará de volta!",
+            "imagem_url": "ilustracao-5.png",
+            "layout_tipo": "vertical",
+            "tema_cor": "bg-laranja-claro"
         },
         {
-            "titulo": "TITULO 3",
-            "descricao": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 
+            "titulo": "MANUTENÇÃO",
+            "conteudo": "Informamos que o repositório digital 'Cordel no Campus' entrará em manutenção programada para aprimoramento e otimização da plataforma. O site ficará indisponível a partir das 23h59 da segunda-feira, dia 10 de novembro de 2025, e o acesso será normalizado às 6h da terça-feira, dia 11 de novembro de 2025. A manutenção visa incorporar sugestões dos alunos, como design minimalista e recursos de conforto ocular, para garantir maior acessibilidade e uma melhor experiência de leitura online. Agradecemos a compreensão de todos!",
+            "imagem_url": None,
+            "layout_tipo": "vertical",
+            "tema_cor": "bg-laranja-escuro"
         }
     ]
     falso_destaque = [
@@ -82,14 +98,14 @@ def novidades():
             "imagem": "ilustracao-1.png"
         },
         {
-            "titulo": "Titulo de Teste 2",
+            "titulo": "Título de Teste 2",
             "descricao": "Testando a troca de slide",
             "imagem": "ilustracao-1.png"
         }
     ]
     return render_template(
         'novidades.html',
-        novidades=lista_de_novidades,
+        noticias=lista_de_novidades,
         destaques=falso_destaque  
     )
 
