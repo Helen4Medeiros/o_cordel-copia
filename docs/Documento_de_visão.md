@@ -18,7 +18,7 @@ O projeto _ôcordel no campus_ tem como objetivo  desenvolver uma interface cria
 
 |         __        | __   |
 |:------------------|:-----|
-| **_O problema_**    |  Não há uma plataforma de repositorio para armazenar os cordeis produzinos anualmente |
+| **_O problema_**    |  Não há uma plataforma de repositorio para armazenar os cordéis produzidos anualmente |
 | **_afetando_**      |  |
 | **_cujo impacto é_**| |
 | **_uma boa solução seria_** | 
@@ -27,8 +27,8 @@ O projeto _ôcordel no campus_ tem como objetivo  desenvolver uma interface cria
 
 | Nome | Descrição | Responsabilidades |
 |:---  |:--- |:--- |
-| Usuário  | Não nescessita de cadastro para vizualizar os cordeis| Visualiza cordeia | 
-| Administrador | Responsável por manter a plataforma funcionando  | Modera conteúdos, posta, edita e remover cordeis. | 
+| Usuário  | Não nescessita de cadastro para visualizar os cordeis| Visualiza cordéis | 
+| Administrador | Responsável por manter a plataforma funcionando  | Modera conteúdos, posta, edita e remove cordéis. | 
 
 ### 4. Descrição do Ambiente dos Usuários
 
@@ -54,9 +54,9 @@ Para os entusiastas e apreciadores da literatura de cordel, a necessidade é ter
 
 | Código | Nome | Descrição |
 |:---  |:--- |:--- |
-| RF02 | Entrar no sistema | Usuários entram no website para viosualizar os cordeis |
-| RF03 | Postar cordel | Admistradores podem postar, editar e excluir cordeis |
-| RF06 | Visualização de Cordeis | Usuários podem navegar por diferentes categorias e autores de cordeis no site |
+| RF02 | Entrar no sistema | Usuários entram no website para visualizar os cordéis |
+| RF03 | Postar cordel | Admistradores podem postar, editar e excluir cordéis |
+| RF06 | Visualização de Cordéis | Usuários podem navegar por diferentes categorias e autores de cordéis no site |
 | RF07 | Sistema de Moderação | Administradores podem gerenciar os conteúdos postados |
 
 ### 9. Requisitos Não-funcionais

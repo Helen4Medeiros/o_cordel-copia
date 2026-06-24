@@ -296,10 +296,12 @@ class CordelDAO:
             "LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
             "LEFT JOIN curso cu ON cu.id = ac.id_curso "
             "LEFT JOIN pagina p ON p.id_cordel = co.id "
-            "WHERE "
+            "WHERE 1=1 "
         )
         # cria filtros com base nos parâmetros informados
         filtros = []
+        for f in filtros:
+            sql_str += " AND " + f
         params = {}
         if titulo_ou_subtitulo:
             filtros.append('(co.titulo ILIKE :titulo OR co.subtitulo ILIKE :subtitulo)')
@@ -524,7 +526,6 @@ class CordelDAO:
                 )
             connection.commit()
         return id_cordel
-    
 
 # ADMINISTRADOR 
 class AdministradorDAO:
