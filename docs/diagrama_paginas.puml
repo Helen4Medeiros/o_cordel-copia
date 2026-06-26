@@ -1,0 +1,28 @@
+@startuml
+
+title Diagrama de Páginas - O Cordel
+
+package "Área Pública (Visitante)" {
+    [Home] --> [Autores]
+    [Home] --> [Categorias]
+    [Home] --> [Novidades/Notícias]
+    [Home] --> [Sobre Nós]
+    
+    [Categorias] --> [Listagem de cordéis por categoria]
+    [Autores] --> [Perfil do autor]
+    [Perfil do autor] --> [Listagem de cordéis por autor]
+    [Autores] --> [Autores por ordem alfabética]
+    [Autores] --> [Autores por categoria]
+    [Autores] --> [Autores por período]
+}
+
+package "Área Administrativa (Painel)" {
+    [Login] --> [Dashboard Admin]
+    [Dashboard Admin] --> [Gerenciar Cordéis]
+    [Dashboard Admin] --> [Gerenciar Autores]
+    [Dashboard Admin] --> [Gerenciar Novidades]
+    [Dashboard Admin] --> [Gerenciar Categorias]
+    [Dashboard Admin] --> [Gerenciar Cursos]
+}
+
+@enduml

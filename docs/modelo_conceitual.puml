@@ -19,6 +19,7 @@ entity Autor{
   nome
   contato
   pseudônimo
+  curso
 }
 entity Categoria{
   nome

@@ -11,11 +11,12 @@ rectangle "o_cordel" {
     usecase "Visualizar Categorias" as UC3
     usecase "Visualizar Novidades" as UC4
 
-    'CDU Administrador
+    ' CDU Administrador
     usecase "Gerenciar Cordéis" as UC5
     usecase "Gerenciar Categorias" as UC6
     usecase "Gerenciar Autores" as UC7
     usecase "Gerenciar Novidades" as UC8
+    usecase "Gerenciar Cursos" as UC9
 }
 
 ' Conexões do Visitante
@@ -29,5 +30,6 @@ admin --> UC5
 admin --> UC6
 admin --> UC7
 admin --> UC8
+admin --> UC9
 
 @enduml
