@@ -109,6 +109,12 @@ def novidades():
         destaques=falso_destaque  
     )
 
+### Sobre nós ###
+
+@myApp.route('/sobre_nos')
+def sobre_nos():
+    return render_template('sobre_nos.html')
+
 ### Cordel ###
 @myApp.route('/cordel_pesquisa')
 def cordel_pesquisa():
@@ -547,3 +553,6 @@ def metr_visitante(req):
     }
     
 
+@myApp.route('/detalhamento_autor')
+def detalhamento_autor():
+    return render_template("detalhamento_autor.html")
