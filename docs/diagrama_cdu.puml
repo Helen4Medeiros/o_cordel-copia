@@ -1,0 +1,33 @@
+@startuml
+left to right direction
+
+actor "Visitante" as user
+actor "Administrador" as admin
+
+rectangle "o_cordel" {
+    ' CDU Visitante
+    usecase "Visualizar Cordéis" as UC1
+    usecase "Visualizar Autores" as UC2
+    usecase "Visualizar Categorias" as UC3
+    usecase "Visualizar Novidades" as UC4
+
+    'CDU Administrador
+    usecase "Gerenciar Cordéis" as UC5
+    usecase "Gerenciar Categorias" as UC6
+    usecase "Gerenciar Autores" as UC7
+    usecase "Gerenciar Novidades" as UC8
+}
+
+' Conexões do Visitante
+user --> UC1
+user --> UC2
+user --> UC3
+user --> UC4
+
+'Conexões do Administrador
+admin --> UC5
+admin --> UC6
+admin --> UC7
+admin --> UC8
+
+@enduml
