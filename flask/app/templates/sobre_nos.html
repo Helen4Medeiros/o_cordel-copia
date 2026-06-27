@@ -2,6 +2,11 @@
 
 {% block head %}
     <style>
+        .tudo{
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 0;
+        }
         .main-layout{
             display: flex;
             flex-direction: column;
@@ -19,11 +24,12 @@
             grid-template-areas:
                 "quem-s-n quem-s-n oq-f onde-e"
                 "como-t-c como-p-f como-p-f onde-e";
-            grid-auto-rows: 350px;
-            margin-top: 30px;
+            grid-auto-rows: 400px;
+            margin-top: 50px;
             width: 100%;
         }
         .container .card {
+            width: auto;
             height: 100%;
             border: 1px solid black;
         }
@@ -32,43 +38,67 @@
         }
         h2{
             color: white;
-        }
-        .descricao {
-            opacity: 0;
-            transition: 0.4s;
+        } 
+        .descricao{
             position: absolute;
-            bottom: 20px;
-            left: 10px;
-            right: 10px;
-        }
-        
-        .card {
-            position: relative;
-            height: 180px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            width: 85%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: .4s;
             text-align: center;
-            transition: 0.4s;
+        }
+        .card{
+            position:relative;
+            overflow:hidden;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            color:white;
+            transition:.4s;
         }
         .card h2{
-            margin-bottom: 200px;
-            transition: 0.4s;
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            text-align: center;
+            width: max-content;
+            transition: .4s;
         }
-        .card:hover h2{
-            font-size: 20px;
-            margin: 0px;
+        .texto-card{
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
         }
-        .card:hover {
-            background-blend-mode: darken;
-            background-color: rgba(0,0,0,0.45);
+        .texto-card h2{
+            margin: 0;
+            font-size: 2.3rem;
+            font-weight: normal;
+            transition: .4s;
         }
-        .card:hover .descricao {
+
+        /* Hover */
+        .card:hover{
+            background-color:rgba(0,0,0,.55);
+            background-blend-mode:darken;
+        }
+        .card:hover .descricao{
             opacity: 1;
         }
+
+        .card:hover h2{
+            top: calc(50% - 1rem);
+            transform: translate(-50%, -100%);
+            font-size: 1.8rem;
+        }
+
         .quem-s-n{
             grid-area: quem-s-n;
             background-image: url("{{ url_for('static', filename='img/imagem-cordel-2.png') }}");
@@ -99,8 +129,28 @@
             background-size: cover;
             background-position: center;
         }
-        .onde-e h2{
-            margin-bottom: 550px;
+        .colaboradores{
+            text-align: center;
+        }
+        .colaboradores h2{
+            margin: 5% 0 0 0;
+            color: black;
+            text-align: center;
+        }
+        .listacolaboradores{
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 1% 0 10% 0;
+
+        }
+        .listacolaboradores ul{
+            padding: 0;
+            list-style-type: none;
+            font-family: "xilosa";
+        }
+        .listacolaboradores li{
+            margin-bottom: 15px;
         }
     </style>
     <script>
@@ -108,6 +158,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="tudo">
     <header class="main-layout">
         <div class="top-section">
             <div class="texto-index">
@@ -128,28 +179,70 @@
                 <img id="logo_index" src="{{ url_for('static', filename='logo.png') }}">
             </figure>
         </div>
+    </header>
+    <main>
         <div class="container">
             <div class="card quem-s-n">
-                <h2>Quem Somos Nós?</h2>
-                <p class="descricao d1">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Harum saepe, aperiam a obcaecati quisquam vero officia repellendus sed tenetur, temporibus exercitationem fuga molestiae possimus. Itaque sed inventore aliquam odit amet.</p>
+                <div class="texto-card">
+                    <h2>Quem Somos Nós?</h2>
+                    <p class="descricao">
+                        Somos alunos e professores que trabalham dentro do site para que continue tudo funcionando, atualizando e planejando conteúdo do site.
+                    </p>
+                </div>
             </div>
             <div class="card como-t-c">
-                <h2>Como Tudo Começou?</h2>
-                <p class="descricao d2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit ducimus odio soluta tempora sed laboriosam eveniet similique itaque quisquam deserunt! Fuga laudantium, natus quas eligendi veritatis velit in sequi id!</p>
+                <div class="texto-card">
+                    <h2>Como Tudo Começou?</h2>
+                    <p class="descricao">
+                        O professor Milson, de português e literatura, ensina seus alunos a escreverem cordéis para uma feirinha. Com o tempo percebeu-se que os cordéis estavam limitados ao formato físico e surgiu a ideia de criar este repositório digital.
+                    </p>
+                </div>
             </div>
             <div class="card como-p-f">
-                <h2>Como o Projeto Funciona?</h2>
-                <p class="descricao d3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat qui maiores, repellat esse itaque amet aut iure quod sed culpa labore, magni laboriosam molestias ratione reiciendis corporis adipisci tempora aliquid.</p>
+                <div class="texto-card">
+                    <h2>Como o Projeto Funciona?</h2>
+                    <p class="descricao">
+                        Bolsistas e professores escaneiam, escrevem e atualizam os cordéis para que possam ser lidos por qualquer pessoa.
+                    </p>
+                </div>
             </div>
             <div class="card oq-f">
-                <h2>O que fazemos?</h2>
-                <p class="descricao d4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio at pariatur et ipsam, iure blanditiis repudiandae velit doloremque sit commodi delectus illum maxime provident vero reprehenderit mollitia iusto. Amet, magnam?</p>
+                <div class="texto-card">
+                    <h2>O que fazemos?</h2>
+                    <p class="descricao">
+                        Disponibilizamos os cordéis escritos pelos alunos do IFRN em um repositório digital, preservando as obras e tornando-as acessíveis ao público.
+                    </p>
+                </div>
             </div>
             <div class="card onde-e">
-                <h2>Onde Estamos?</h2>
-                <p class="descricao d5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error eum facere odit saepe iure aut, dicta, fuga soluta cumque consequatur distinctio nemo nisi quibusdam provident laudantium quas exercitationem, aliquam iste.</p>
+                <div class="texto-card">
+                    <h2>Onde Estamos?</h2>
+                    <p class="descricao">
+                        A feirinha acontece no IFRN - Campus Natal Central, Avenida Senador Salgado Filho, nº 1559, Tirol.
+                    </p>
+                </div>
             </div>
         </div>
-    </header>
+        <section class="colaboradores">
+            <h2>Colaboradores</h2>
+            <div class="listacolaboradores">
+                <ul>
+                    <li>• Alexandre Gomes de Lima</li>
+                    <li>• Danielle Gomes de Freitas Medeiros</li>
+                </ul>
+                <ul>
+                    <li>• Luis Felipe Rodrigues Freire</li>
+                    <li>• Pedro Lucas Oliveira de Sousa</li>
+                    <li>• Raica Dandara Granjeiro de Queiroz</li>
+                </ul>
+                <ul>
+                    <li>• Sofia Costa Kunzler</li>
+                    <li>• Maria Helena Cunha de Medeiros</li>
+                    <li>• Maria Júlia Gomes da Silva</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+</div>
     {% include 'components/footer.html' %}
 {% endblock %}

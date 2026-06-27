@@ -42,19 +42,24 @@
     }
 
     .footer-link {
+        border: black solid 2px;
         display: inline-block;
         background-color: #000000;
         color: #ffffff;
         text-decoration: none;
         font-family: 'Roboto', sans-serif;
         font-size: 0.9rem;
+        font-weight: bold;
         padding: 0.5rem 1.8rem;
         border-radius: 50px;
         transition: background-color 0.2s ease;
     }
 
     .footer-link:hover {
-        background-color: #333333;
+        background-color: #ffffff;
+        border: black solid 2px;
+        color: black;
+        font-weight: bold;
     }
 
     .footer-copyright {
@@ -84,7 +89,7 @@
     <div class="footer-conteudo">
         
         <div class="footer-icone">
-            <img src="{{ url_for('static', filename='logo-2.png') }}" alt="Ícone Cordel">
+            <a href="{{ url_for('index')}}"><img src="{{ url_for('static', filename='logo-2.png') }}" alt="Ícone Cordel"></a>
         </div>
 
         <div class="footer-centro">
