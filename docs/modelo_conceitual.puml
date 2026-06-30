@@ -17,12 +17,18 @@ entity Curso{
 }
 entity Autor{
   nome
-  contato
   pseudônimo
   curso
+  contato
+  descricao
 }
 entity Categoria{
   nome
+}
+entity Novidades {
+  titulo
+  texto
+  imagem
 }
 Cordel "1" *-- "1..*" Página
 Cordel "*" -- "1..*" Autor
