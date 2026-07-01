@@ -29,6 +29,7 @@ entity Novidades {
   titulo
   texto
   imagem
+  data
 }
 Cordel "1" *-- "1..*" Página
 Cordel "*" -- "1..*" Autor
