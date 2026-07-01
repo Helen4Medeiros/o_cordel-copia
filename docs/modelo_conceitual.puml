@@ -4,6 +4,7 @@ entity Cordel{
   título
   subtítulo
   destaque : bool
+  publicado : bool
   data de publicação
   data de cadastro
   capa : imagem
