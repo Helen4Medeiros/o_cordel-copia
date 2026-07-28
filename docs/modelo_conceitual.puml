@@ -4,6 +4,7 @@ entity Cordel{
   título
   subtítulo
   destaque : bool
+  publicado : bool
   data de publicação
   data de cadastro
   capa : imagem
@@ -17,12 +18,19 @@ entity Curso{
 }
 entity Autor{
   nome
-  contato
   pseudônimo
   curso
+  contato
+  descricao
 }
 entity Categoria{
   nome
+}
+entity Novidades {
+  titulo
+  texto
+  imagem
+  data
 }
 Cordel "1" *-- "1..*" Página
 Cordel "*" -- "1..*" Autor
