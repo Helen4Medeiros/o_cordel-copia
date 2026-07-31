@@ -31,7 +31,11 @@
     </main>
 
     <section id="carrossel_index">
-      TODO
+      <div>
+        {% for c in cordeis %}
+          <div>{{ c.titulo }}</div>
+        {% endfor %}
+      </div>
     </section>
 
     <section class="secao_index">

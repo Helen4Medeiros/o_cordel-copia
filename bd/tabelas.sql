@@ -19,7 +19,8 @@ CREATE TABLE autor (
     nome VARCHAR(100) NOT NULL, 
     pseudonimo VARCHAR(100), 
     contato TEXT,
-    descricao VARCHAR(200)
+    descricao VARCHAR(200),
+    destaque BOOL NOT NULL
 );
 CREATE TABLE autor_curso (
     id_autor BIGINT NOT NULL,

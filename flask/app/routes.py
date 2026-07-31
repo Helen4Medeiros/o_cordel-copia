@@ -29,7 +29,9 @@ def get_AdministradorDAO():
 @myApp.route('/')
 @myApp.route('/index')
 def index():
-    return render_template('index.html')
+    daoCordel = get_CordelDAO()
+    cordeis = daoCordel.todos() #o método 'todos' na classe daoCordel ainda n existe, precisa criar pra funcionar
+    return render_template('index.html', cordeis=cordeis)
 
 ### Login ###
 
@@ -429,7 +431,8 @@ def salvar_autor():
             pseudonimo=formAutor.pseudonimo.data, 
             contato=formAutor.contato.data, 
             cursos=[],
-            descricao=formAutor.descricao.data
+            descricao=formAutor.descricao.data,
+            destaque=formAutor.destaque.data
         )
         ids_cursos = [int(id_str) for id_str in formAutor.id_cursos.data]
         daoAutor.salvar(a, ids_cursos)
@@ -467,6 +470,8 @@ def alterar_autor(id):
     formAutor.pseudonimo.data = autor.pseudonimo
     formAutor.contato.data = autor.contato
     formAutor.id_cursos.data = [str(c.id) for c in autor.cursos]
+    formAutor.descricao.data = autor.descricao
+    formAutor.destaque.data = autor.destaque
     return render_template('crud_autores.html', formAutor=formAutor, formPesquisa=formPesquisa, titulo="Autores")
 
 

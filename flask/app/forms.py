@@ -30,6 +30,7 @@ class AutorForm(FlaskForm):
     contato = StringField('Contato')
     id_cursos = SelectMultipleField('Cursos')
     descricao = StringField('Descrição')
+    destaque = BooleanField('Em destaque')
     submit = SubmitField('Salvar')
 
     def fill_choices(self, cursos):
