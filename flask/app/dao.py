@@ -534,7 +534,17 @@ class CordelDAO:
             cordeis = []
             result = connection.execute(sql)
             for r in result:
-                cordeis.append(models.Cordel(r[0]))
+                cordel = models.Cordel()
+                cordel.id = r[0]
+                cordel.titulo = r[1]
+                cordel.subtitulo = r[2]
+                cordel.destaque = r[3]
+                cordel.visivel = r[4]
+                cordel.data_publicacao = r[5]
+                cordel.data_cadastro = r[6]
+                cordel.imagem_capa = r[7]
+                cordel.mime_type_capa = r[8]
+                cordeis.append(cordel)
             return cordeis
 
 # ADMINISTRADOR 

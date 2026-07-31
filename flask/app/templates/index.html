@@ -4,6 +4,19 @@
   <script>
   </script>
   <style>
+      .cards-cordeis{
+        display: flex;
+        gap: 3rem;
+      }
+      .card-cordel{
+        background-color: #A1D7CA;
+        width: 200px;
+        height: 250px;
+        text-align: center;
+      }
+      .card-cordel a{
+        font-family: xilosa;
+      }
   </style>
 {% endblock %}
 
@@ -31,9 +44,15 @@
     </main>
 
     <section id="carrossel_index">
-      <div>
+      <div class="cards-cordeis">
+        {% set x = namespace(valor=0) %}
         {% for c in cordeis %}
-          <div>{{ c.titulo }}</div>
+          {% if c.destaque == True and x.valor < 4 %}
+            <div class="card-cordel">
+              <a href="{{ url_for('cordel', id=c.id) }}">{{ c.titulo }}</a>
+            </div>
+            {% set x.valor = x.valor + 1 %}
+          {% endif %}
         {% endfor %}
       </div>
     </section>
@@ -52,4 +71,6 @@
       <h1>Destaques</h1>
       TODO
     </section>
+
+{% include 'components/footer.html' %}
 {% endblock %}

@@ -29,8 +29,8 @@ def get_AdministradorDAO():
 @myApp.route('/')
 @myApp.route('/index')
 def index():
-    daoCordel = get_CordelDAO()
-    cordeis = daoCordel.todos() #o método 'todos' na classe daoCordel ainda n existe, precisa criar pra funcionar
+    daoCordel = get_CordelDAO() # classe CordelDAO
+    cordeis = daoCordel.todos() # método todos -> chama todos os cordéis; os cordéis são guardados na variável 'cordeis'
     return render_template('index.html', cordeis=cordeis)
 
 ### Login ###
