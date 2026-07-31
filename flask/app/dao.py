@@ -155,7 +155,7 @@ class AutorDAO:
             for r in result_segunda_consulta:
                 if id_autor != r[0]: # mudou o autor
                     id_autor = r[0]
-                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[])
+                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[], descricao=[])
                     autores.append(a)
                 if r[4]:
                     a.cursos.append(models.Curso(r[4], r[5]))
@@ -206,7 +206,7 @@ class CordelDAO:
         sql_a = (
             "SELECT c.id, c.titulo, c.subtitulo, c.destaque, "
             " c.visivel, c.data_publicacao, c.data_cadastro, "
-            " c.mime_type_capa, cat.id, cat.nome, a.id, a.nome, a.pseudonimo "
+            " c.mime_type_capa, cat.id, cat.nome, a.id, a.nome, a.pseudonimo, a.descricao "
             "FROM cordel c "
             "INNER JOIN cordel_categoria cc ON c.id = cc.id_cordel "
             "INNER JOIN categoria cat ON cat.id = cc.id_categoria "
@@ -240,7 +240,7 @@ class CordelDAO:
                 if r[8]:
                     categorias[r[8]] = models.Categoria(r[8], r[9])
                 if r[10]:
-                    autores[r[10]] = models.Autor(r[10], r[11], r[12], None, None)
+                    autores[r[10]] = models.Autor(r[10], r[11], r[12], None, None, r[13])
             cordel.categorias = [c for c in categorias.values()]
             cordel.autores = [a for a in autores.values()]
             result_a.close()
@@ -296,7 +296,7 @@ class CordelDAO:
             "LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
             "LEFT JOIN curso cu ON cu.id = ac.id_curso "
             "LEFT JOIN pagina p ON p.id_cordel = co.id "
-            "WHERE 1=1 "
+            "WHERE "
         )
         # cria filtros com base nos parâmetros informados
         filtros = []
@@ -380,7 +380,7 @@ class CordelDAO:
             result_b.close()
             # 3º passo: obter autores com respectivos cursos
             sql_c = text(
-                "SELECT a.id, a.nome, a.pseudonimo, a.contato, cu.id, cu.nome, co.id "
+                "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, cu.id, cu.nome, co.id "
                 "FROM autor a "
                 "LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
                 "LEFT JOIN curso cu ON cu.id = ac.id_curso "
@@ -393,16 +393,19 @@ class CordelDAO:
             id_autor = None
             cursos_dic = {} # chave: id do curso, valor: objeto curso
             for r in result_c:
+                #guia visual de índices do sql_c: r[0]=a.id, r[1]=a.nome, r[2]=a.pseudonimo, r[3]=a.contato, r[4]=a.descricao
+                                                        # r[5]=cu.id, r[6]=cu.nome, r[7]=co.id
                 if id_autor != r[0]: # mudou o autor
-                    a = models.Autor(r[0], r[1], r[2], r[3], None)
-                    id_cordel = r[6]
+                    id_autor = r[0]
+                    a = models.Autor(r[0], r[1], r[2], r[3], None, r[4])
+                    id_cordel = r[7]
                     cordeis_dic[id_cordel].autores.append(a)
-                if r[4]: # autor tem curso
-                    id_curso = r[4]
+                if r[5]: # autor tem curso
+                    id_curso = r[5]
                     if id_curso in cursos_dic:
                         c = cursos_dic[id_curso]
                     else:
-                        c = models.Curso(r[4], r[5])
+                        c = models.Curso(r[5], r[6])
                         cursos_dic[id_curso] = c
                     if c not in a.cursos:
                         a.cursos.append(c)

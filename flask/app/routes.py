@@ -428,7 +428,8 @@ def salvar_autor():
             nome=formAutor.nome.data, 
             pseudonimo=formAutor.pseudonimo.data, 
             contato=formAutor.contato.data, 
-            cursos=[]
+            cursos=[],
+            descricao=formAutor.descricao.data
         )
         ids_cursos = [int(id_str) for id_str in formAutor.id_cursos.data]
         daoAutor.salvar(a, ids_cursos)

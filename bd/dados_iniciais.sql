@@ -8,5 +8,5 @@ INSERT INTO curso (nome) VALUES('Geologia');
 INSERT INTO curso (nome) VALUES('Mecânica');
 INSERT INTO curso (nome) VALUES('Mineração');
 
-INSERT INTO categoria (nome) VALUES('sátira');
-INSERT INTO categoria (nome) VALUES('comédia');
+INSERT INTO categoria (nome) VALUES('Sátira');
+INSERT INTO categoria (nome) VALUES('Comédia');
