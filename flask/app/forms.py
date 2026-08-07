@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, \
     SubmitField, HiddenField, SelectMultipleField, \
-    SelectField, DateField, TextAreaField 
+    SelectField, DateField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, \
     Optional, EqualTo
 from wtforms import widgets
 from markupsafe import Markup
-from flask_wtf.file import FileField, FileAllowed
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 class LoginForm(FlaskForm):
     matricula = StringField('Matrícula', validators=[DataRequired()])
@@ -31,6 +31,7 @@ class AutorForm(FlaskForm):
     id_cursos = SelectMultipleField('Cursos')
     descricao = StringField('Descrição')
     destaque = BooleanField('Em destaque')
+    imagem_autor = FileField('Foto do Autor', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Apenas imagens "jpg, png e jpeg".')])
     submit = SubmitField('Salvar')
 
     def fill_choices(self, cursos):

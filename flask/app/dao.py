@@ -72,18 +72,19 @@ class AutorDAO:
 
     def get_por_ID(self, id_autor):
         sql = text(
-            "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, c.id, c.nome "
+            "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
             "FROM autor a LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
             "LEFT JOIN curso c ON ac.id_curso = c.id WHERE a.id = :id_autor"
         )
         with self.sql_engine.connect() as connection:
             result = connection.execute(sql, {'id_autor': id_autor})
             for i, r in enumerate(result):
+                print(r)
                 if i == 0:
                     id_autor = r[0]
-                    autor = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[], descricao=r[4], destaque=r[5])
-                if r[6]:
-                    autor.cursos.append(models.Curso(r[6], r[7]))
+                    autor = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
+                if r[8]:
+                    autor.cursos.append(models.Curso(r[8], r[9]))
             return autor
         
     def get_nomes_as_dic(self, nome_ou_pseudonimo):
@@ -144,7 +145,7 @@ class AutorDAO:
                 return autores
             # 2ª etapa: obtém os autores e os cursos associados
             segunda_consulta = text(
-                "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, c.id, c.nome "
+                "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
                 "FROM autor a LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
                 "LEFT JOIN curso c ON ac.id_curso = c.id WHERE a.id IN :ids_autores "
                 "ORDER BY a.id"
@@ -155,29 +156,52 @@ class AutorDAO:
             for r in result_segunda_consulta:
                 if id_autor != r[0]: # mudou o autor
                     id_autor = r[0]
-                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[], descricao=r[4], destaque=r[5])
+                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
                     autores.append(a)
-                if r[6]:
-                    a.cursos.append(models.Curso(r[6], r[7]))
+                if r[8]:
+                    a.cursos.append(models.Curso(r[8], r[9]))
             return autores
         
     def salvar(self, autor, id_cursos):
         params = {
-            "nome": autor.nome, 
-            "pseudonimo": autor.pseudonimo, 
+            "nome": autor.nome,
+            "pseudonimo": autor.pseudonimo,
             "contato": autor.contato,
             "descricao": autor.descricao,
             "destaque": autor.destaque
         }
         if autor.id:
-            sql_autor = text("UPDATE autor SET nome = :nome, pseudonimo = :pseudonimo, contato = :contato, descricao = :descricao, destaque = :destaque WHERE id = :id")
-            params['id'] = autor.id
+            sql = """
+                UPDATE autor
+                SET nome = :nome,
+                    pseudonimo = :pseudonimo,
+                    contato = :contato,
+                    descricao = :descricao,
+                    destaque = :destaque
+            """
+            if autor.imagem_autor:
+                sql += ", imagem_autor = :imagem_autor, mime_type_img = :mime_type_img"
+                params["imagem_autor"] = autor.imagem_autor
+                params["mime_type_img"] = autor.mime_type_img
+
+            sql += " WHERE id = :id"
+            params["id"] = autor.id
+
         else:
-            sql_autor = text(
-                "INSERT INTO autor (nome, pseudonimo, contato, descricao, destaque) " \
-                "VALUES (:nome, :pseudonimo, :contato, :descricao, :destaque) " \
-                "RETURNING id"
-            )
+            sql = """
+                INSERT INTO autor
+                (nome, pseudonimo, contato, descricao, destaque, imagem_autor, mime_type_img)
+                VALUES
+                (:nome, :pseudonimo, :contato, :descricao, :destaque,
+                :imagem_autor, :mime_type_img)
+                RETURNING id
+            """
+
+            params["imagem_autor"] = autor.imagem_autor
+            params["mime_type_img"] = autor.mime_type_img
+
+        sql_autor = text(sql)
+
         with self.sql_engine.connect() as connection:
             rs_autor = connection.execute(sql_autor, params)
             if autor.id:
@@ -200,6 +224,25 @@ class AutorDAO:
             connection.execute(sql, {"id": id_autor})
             connection.commit()
 
+    def get_foto_autor(self, id_autor, is_admin):
+        sql = (
+            "SELECT imagem_autor, mime_type_img "
+            "FROM autor a "
+            "WHERE id = :id "
+        )
+        if not is_admin:
+            sql += "AND visivel = TRUE "
+        with self.sql_engine.connect() as connection:
+            result = connection.execute(
+                text(sql), 
+                {"id": id_autor}
+            )
+            dados = None
+            for r in result:
+                dados = r[0], r[1]
+            result.close()
+            return dados
+
 class CordelDAO:
     def __init__(self, sql_engine):
         self.sql_engine = sql_engine
@@ -208,7 +251,7 @@ class CordelDAO:
         sql_a = (
             "SELECT c.id, c.titulo, c.subtitulo, c.destaque, "
             " c.visivel, c.data_publicacao, c.data_cadastro, "
-            " c.mime_type_capa, cat.id, cat.nome, a.id, a.nome, a.pseudonimo, a.descricao, a.destaque "
+            " c.mime_type_capa, cat.id, cat.nome, a.id, a.nome, a.pseudonimo, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img "
             "FROM cordel c "
             "INNER JOIN cordel_categoria cc ON c.id = cc.id_cordel "
             "INNER JOIN categoria cat ON cat.id = cc.id_categoria "
@@ -239,7 +282,7 @@ class CordelDAO:
                 if r[8]:
                     categorias[r[8]] = models.Categoria(r[8], r[9])
                 if r[10]:
-                    autores[r[10]] = models.Autor(r[10], r[11], r[12], None, None, r[13], r[14])
+                    autores[r[10]] = models.Autor(r[10], r[11], r[12], None, None, r[13], r[14], r[15], r[16])
             cordel.categorias = [c for c in categorias.values()]
             cordel.autores = [a for a in autores.values()]
             result_a.close()
@@ -379,7 +422,7 @@ class CordelDAO:
             result_b.close()
             # 3º passo: obter autores com respectivos cursos
             sql_c = text(
-                "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, cu.id, cu.nome, co.id "
+                "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, cu.id, cu.nome, co.id "
                 "FROM autor a "
                 "LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
                 "LEFT JOIN curso cu ON cu.id = ac.id_curso "
@@ -393,18 +436,18 @@ class CordelDAO:
             cursos_dic = {} # chave: id do curso, valor: objeto curso
             for r in result_c:
                 # guia visual de índices do sql_c: r[0]=a.id, r[1]=a.nome, r[2]=a.pseudonimo, r[3]=a.contato, r[4]=a.descricao
-                                                        # r[5]=a.destaque, r[6]=cu.id, r[7]=cu.nome, r[8]=co.id
+                                                        # r[5]=a.destaque, r[6]=a.imagem_autor, r[7]=a.mime_type_img, r[8]=cu.id, r[9]=cu.nome, r[10]=co.id
                 if id_autor != r[0]: # mudou o autor
                     id_autor = r[0]
-                    a = models.Autor(r[0], r[1], r[2], r[3], None, r[4], r[5])
-                    id_cordel = r[8]
+                    a = models.Autor(r[0], r[1], r[2], r[3], None, r[4], r[5], r[6], r[7])
+                    id_cordel = r[10]
                     cordeis_dic[id_cordel].autores.append(a)
-                if r[6]: # autor tem curso
-                    id_curso = r[6]
+                if r[8]: # autor tem curso
+                    id_curso = r[8]
                     if id_curso in cursos_dic:
                         c = cursos_dic[id_curso]
                     else:
-                        c = models.Curso(r[6], r[7])
+                        c = models.Curso(r[8], r[9])
                         cursos_dic[id_curso] = c
                     if c not in a.cursos:
                         a.cursos.append(c)

@@ -7,15 +7,19 @@
       .cards-cordeis{
         display: flex;
         gap: 3rem;
+        justify-content: center;
       }
       .card-cordel{
         background-color: #A1D7CA;
         width: 200px;
         height: 250px;
         text-align: center;
+        padding-top: 1rem;
       }
       .card-cordel a{
-        font-family: xilosa;
+        font-family: 'xilosa';
+        text-decoration: none;
+        color: black;
       }
   </style>
 {% endblock %}
@@ -45,9 +49,9 @@
 
     <section id="carrossel_index">
       <div class="cards-cordeis">
-        {% set x = namespace(valor=0) %}
+        {% set x = namespace(valor=0) %} <!-- x = variável temporária para só aparecer 4 cordéis na pagina principal -->
         {% for c in cordeis %}
-          {% if c.destaque == True and x.valor < 4 %}
+          {% if c.destaque == True and x.valor < 4 %} 
             <div class="card-cordel">
               <a href="{{ url_for('cordel', id=c.id) }}">{{ c.titulo }}</a>
             </div>

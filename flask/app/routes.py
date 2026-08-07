@@ -1,8 +1,11 @@
-from flask import render_template, flash, redirect, request, jsonify, Response
+from flask import render_template, flash, redirect, request, jsonify, Response, current_app
 from flask_login import login_required, current_user, login_user, logout_user
 from app import myApp, dao, forms, models, sql_engine, login_manager
 from markupsafe import Markup, escape
 from datetime import datetime, time, timezone
+from werkzeug.utils import secure_filename
+import os
+
 
 @myApp.template_filter()
 def nl2br(value):
@@ -399,7 +402,7 @@ def crud_autores():
     formAutor.fill_choices(cursos)
     formPesquisa = forms.PesquisaAutorForm()
     formPesquisa.fill_choices(cursos)
-    return render_template('crud_autores.html', formAutor=formAutor, formPesquisa=formPesquisa, titulo="Autores")
+    return render_template('crud_autores.html', formAutor=formAutor, formPesquisa=formPesquisa, autor=None, titulo="Autores")
 
 @myApp.route('/pesquisar_autores', methods=['POST'])
 @login_required
@@ -425,17 +428,20 @@ def salvar_autor():
     formAutor.fill_choices(cursos)
     daoAutor = get_AutorDAO()
     if formAutor.validate_on_submit():
-        a = models.Autor(
+        arquivoFoto = formAutor.imagem_autor.data[0]
+        autor = models.Autor(
             id=formAutor.id.data, 
             nome=formAutor.nome.data, 
             pseudonimo=formAutor.pseudonimo.data, 
             contato=formAutor.contato.data, 
             cursos=[],
             descricao=formAutor.descricao.data,
-            destaque=formAutor.destaque.data
+            destaque=formAutor.destaque.data,
+            imagem_autor = arquivoFoto.read(),
+            mime_type_img = arquivoFoto.content_type
         )
         ids_cursos = [int(id_str) for id_str in formAutor.id_cursos.data]
-        daoAutor.salvar(a, ids_cursos)
+        daoAutor.salvar(autor, ids_cursos)
         flash('Autor salvo com sucesso')
         return redirect('/crud_autores')
     else:
@@ -473,6 +479,16 @@ def alterar_autor(id):
     formAutor.descricao.data = autor.descricao
     formAutor.destaque.data = autor.destaque
     return render_template('crud_autores.html', formAutor=formAutor, formPesquisa=formPesquisa, titulo="Autores")
+
+@myApp.route('/foto_autor/<id>')
+def foto_autor(id):
+    admin = True if current_user.is_authenticated else False
+    dados = get_AutorDAO().get_foto_autor(id, admin)
+    if dados:
+        imagem_autor, mime_type_img = dados[0], dados[1]
+        return Response(imagem_autor, mimetype=mime_type_img)
+    else:
+        return "Imagem não encontrada", 404
 
 
 @myApp.route('/crud_admin')
