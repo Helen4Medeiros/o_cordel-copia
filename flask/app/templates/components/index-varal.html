@@ -1,0 +1,169 @@
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: 'xilosa';
+  }
+
+  #carrossel_index {
+    position: relative;
+    width: 100%;
+    max-width: 1224px;
+    margin: 0 auto;
+  }
+
+  .corda-varal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .carrossel-varal {
+    display: flex;
+    width: 100%;
+    max-width: 1224px;
+    margin: 0 auto;
+    padding: 25px 60px 70px 60px;
+    gap: 80px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    box-sizing: border-box;
+  }
+
+  .carrossel-varal::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card-cordel {
+    position: relative;
+    flex: 0 0 216px;
+    width: 216px;
+    height: 17rem;
+    will-change: transform;
+    transition: transform 0.05s linear;
+    z-index: 15;
+    transform-origin: top center;
+    box-sizing: border-box;
+  }
+
+  .card-cordel a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #FF7E70;
+    color: black;
+    text-decoration: none;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .card-border {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    border: 2px solid black;
+    padding-bottom: 10rem;
+    box-sizing: border-box;
+  }
+
+  .btn-carrossel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .btn-carrossel img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.2s ease;
+  }
+
+  .btn-carrossel:hover img {
+    transform: scale(1.15);
+  }
+
+  .btn-carrossel.prev { left: -50px; }
+  .btn-carrossel.next { right: -50px; }
+</style>
+
+<section id="carrossel_index">
+  <button class="btn-carrossel prev" onclick="moverCarrossel(-1)">
+    <img src="{{ url_for('static', filename='img/seta-esquerda.svg') }}" alt="Anterior">
+  </button>
+  <svg class="corda-varal" viewBox="0 0 1224 80" preserveAspectRatio="none">
+    <path d="M 0 25 Q 612 75 1224 25" stroke="#000000" stroke-width="1.5" fill="none" />
+  </svg>
+  <div class="carrossel-varal" id="containerCordeis">
+    {% for c in cordeis %}
+      {% if c.destaque %}
+        <div class="card-cordel">
+          <a href="{{ url_for('cordel', id=c.id) }}">
+            <div class="card-border">
+              {{ c.titulo }}
+            </div>
+          </a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <button class="btn-carrossel next" onclick="moverCarrossel(1)">
+    <img src="{{ url_for('static', filename='img/seta-direita.svg') }}" alt="Próximo">
+  </button>
+</section>
+
+<script>
+  const container = document.getElementById('containerCordeis');
+  const sectionVaral = document.getElementById('carrossel_index');
+
+  function moverCarrossel(direcao) {
+    container.scrollBy({
+      left: direcao * 1104,
+      behavior: 'smooth'
+    });
+  }
+
+  function atualizarParabola() {
+    const cards = container.querySelectorAll('.card-cordel');
+    const larguraTotal = sectionVaral.clientWidth;
+
+    cards.forEach(card => {
+      const centroCard = card.offsetLeft + (card.offsetWidth / 2) - container.scrollLeft;
+      
+      let u = centroCard / larguraTotal;
+      if (u < 0) u = 0;
+      if (u > 1) u = 1;
+
+      const translateY = 100 * u * (1 - u);
+      const inclinacao = 0.0817 * (1 - 2 * u);
+      const angulo = Math.atan(inclinacao) * (180 / Math.PI);
+
+      card.style.transform = `translateY(${translateY}px) rotate(${angulo}deg)`;
+    });
+  }
+
+  container.addEventListener('scroll', atualizarParabola);
+  window.addEventListener('load', atualizarParabola);
+  window.addEventListener('resize', atualizarParabola);
+</script>
