@@ -157,14 +157,14 @@ def pesquisar_cordeis():
             current_user.get_id()
         )
         return render_template(
-            'cordel_pesquisa.html', 
+            'cordel/cordel_pesquisa.html', 
             form=form, 
             titulo="Pesquisa de cordéis", 
             cordeis=cordeis
         )
     else:
         return render_template(
-            'cordel_pesquisa.html', 
+            'cordel/cordel_pesquisa.html', 
             form=form, 
             titulo="Pesquisa de cordéis"
         )
@@ -183,7 +183,7 @@ def cordel_cadastro():
         get_CategoriaDAO().todos()
     )
     return render_template(
-        'cordel_cadastro.html', 
+        'cordel/cordel_cadastro.html', 
         form=form, 
         titulo="Cadastro de Cordel"
     )
@@ -210,7 +210,7 @@ def alterar_cordel(id):
     if cordel.mime_type_capa:
         request.view_args['tem_capa'] = True
     return render_template(
-        'cordel_cadastro.html', 
+        'cordel/cordel_cadastro.html', 
         form=form, 
         titulo="Alterar Cordel"
     )
@@ -249,10 +249,10 @@ def salvar_cordel():
         flash('Cordel salvo com sucesso')
         if cordel.id:
             return redirect(f'/alterar_cordel/{cordel.id}')
-        return redirect(f'/cordel_cadastro')
+        return redirect(f'cordel/cordel_cadastro')
     else:
         return render_template(
-            'cordel_cadastro.html', 
+            'cordel/cordel_cadastro.html', 
             form=form, 
             titulo="Cadastro de Cordel"
         )
@@ -437,8 +437,8 @@ def salvar_autor():
             cursos=[],
             descricao=formAutor.descricao.data,
             destaque=formAutor.destaque.data,
-            imagem_autor = arquivoFoto.read(),
-            mime_type_img = arquivoFoto.content_type
+            imagem_autor = arquivoFoto.read() if arquivoFoto else None,
+            mime_type_img = arquivoFoto.content_type if arquivoFoto else None
         )
         ids_cursos = [int(id_str) for id_str in formAutor.id_cursos.data]
         daoAutor.salvar(autor, ids_cursos)

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <script>
+  </script>
+{% endblock %}
+
+{% block content %}
+    <h1>Pesquisa de Cordéis</h1>
+    <div>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      {% endwith %}
+    </div>
+    <div>
+      <form method="get" action="{{ url_for('pesquisar_cordeis') }}" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+          {{ form.titulo_ou_subtitulo.label }}<br>
+          {{ form.titulo_ou_subtitulo() }}
+        </p>
+        <p>
+          {{ form.autor.label }}<br>
+          {{ form.autor() }}
+        </p>
+        <p>
+          {{ form.id_categoria.label }}<br>
+          {{ form.id_categoria() }}
+        </p>
+        <p>
+          {{ form.id_curso.label }}<br>
+          {{ form.id_curso() }}
+        </p>
+        <p>
+          {{ form.em_destaque() }} 
+          {{ form.em_destaque.label }}
+        </p>
+        <p>
+          {% if current_user.is_authenticated %}
+          {{ form.invisivel() }} 
+          {{ form.invisivel.label }}
+          {% endif %}
+        </p>
+        <p>
+          {{ form.depois_de.label }}<br>
+          {{ form.depois_de() }} 
+        </p>
+        <p>
+          {{ form.antes_de.label }}<br>
+          {{ form.antes_de() }} 
+        </p>
+        <p>
+          {{ form.texto.label }}<br>
+          {{ form.texto() }}
+        </p>
+        {% for field, errors in form.errors.items() %}
+        <span style="color: red;">{{ ', '.join(errors) }}</span>
+        {% endfor %}
+        <p>
+        <p>
+          {{ form.submit() }}
+        </p>
+      </form>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autores</th>
+          <th>Cursos dos autores</th>
+          <th>Categorias</th>
+          <th>Em destaque</th>
+          {% if current_user.is_authenticated %}
+          <th>Visível</th>
+          {% endif %}
+          <th>Publicado em</th>
+          {% if current_user.is_authenticated %}
+          <th>Alterar</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+      {% for c in cordeis %}
+        <tr>
+          <td>
+            <a href="{{ url_for('cordel', id=c.id) }}">
+            {{ c.titulo + ': ' + c.subtitulo if c.subtitulo else c.titulo }}
+            </a>
+          </td>
+          <td>
+            <ul>
+              {% for a in c.autores %}
+              <li>{{ a.nome + '(' + a.pseudonimo +')' if a.pseudonimo else a.nome}}</li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td>
+            <ul>
+              {% for cur in c.cursos_dos_autores() %}
+              <li>{{ cur.nome }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td>
+            <ul>
+              {% for cat in c.categorias %}
+              <li>{{ cat.nome }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td>{{ 'Sim' if c.destaque else 'Não' }}</td>
+          {% if current_user.is_authenticated %}
+          <td>{{ 'Sim' if c.visivel else 'Não' }}</td>
+          {% endif %}
+          <td>{{ c.data_publicacao.strftime("%d/%m/%Y") }}</td>
+          {% if current_user.is_authenticated %}
+          <td>
+            <a href="{{ url_for('alterar_cordel', id=c.id) }}">
+            Alterar
+            </a>
+          </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}
