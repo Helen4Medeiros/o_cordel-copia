@@ -1,5 +1,9 @@
   <nav class="menu">
-    <img class="estrela" src="{{ url_for('static', filename='logo-2.png') }}">
+    {% if request.endpoint != 'index' %}
+    <a href="{{ url_for('index') }}"><img class="logo" src="{{ url_for('static', filename='logo-2.png') }}"></a>
+    {% else %}
+    <img class="logo" src="{{ url_for('static', filename='logo-2.png') }}">
+    {% endif %}
     <ul>
       <li>Categorias</li> <!-- usuario -->
       <li>Autores</li>
