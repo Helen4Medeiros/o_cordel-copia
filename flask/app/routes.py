@@ -129,7 +129,7 @@ def cordel_pesquisa():
         get_CursoDAO().todos()
     )
     return render_template(
-        'cordel_pesquisa.html', 
+        'cordel/cordel_pesquisa.html', 
         form=form, 
         titulo="Pesquisa de cordéis"
     )
@@ -175,7 +175,7 @@ def autores_por_nome_json():
     dados = get_AutorDAO().get_nomes_as_dic(nome_ou_pseudonimo)
     return jsonify(dados)
 
-@myApp.route('/cordel_cadastro')
+@myApp.route('/cordel/cordel_cadastro')
 @login_required
 def cordel_cadastro():
     form = forms.CadastroCordelForm()
@@ -280,7 +280,7 @@ def cordel(id):
     cordel = get_CordelDAO().get_por_ID(id, admin)
     # TODO: tratar cordel não encontrado
     return render_template(
-        'cordel.html', 
+        'cordel/cordel.html', 
         cordel=cordel, 
         titulo=cordel.titulo
     )
