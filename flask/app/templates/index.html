@@ -1,97 +1,53 @@
 {% extends "base.html" %}
 
-<<<<<<< HEAD
-=======
 {% block head %}
   <script>
   </script>
   <style>
-      .cards-cordeis{
+      #text_index button {
+        border: none;
+        padding: 0.6rem 1.5rem;
+        border-radius: 8px;
+        background-color: #C4D0AB;
+      }
+      main.container-principal {
+        max-width: 1224px; 
+        width: 90%;       
+        margin: 0 auto;  
+      }
+      .topo-index {
         display: flex;
-        gap: 3rem;
-        justify-content: center;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        margin: 2rem 0;
       }
-      .card-cordel{
-        background-color: #A1D7CA;
-        width: 200px;
-        height: 250px;
-        text-align: center;
-        padding-top: 1rem;
+      h1 {
+        font-size: 50px;
       }
-      .card-cordel a{
-        font-family: 'xilosa';
-        text-decoration: none;
-        color: black;
+
+      #text_index {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
       }
-  </style>
+
+      #logo_index {
+        max-width: 500px;
+        width: 100%;
+        height: auto;
+      }
+
+      .secao_index {
+        margin: 3rem 0;
+      }
+      </style>
 {% endblock %}
 
->>>>>>> c43794556027712cb540e3f7e73d369705def437
 {% block content %}
 
-<<<<<<< HEAD
-<style>
-=======
-    <section id="carrossel_index">
-      <div class="cards-cordeis">
-        {% set x = namespace(valor=0) %} <!-- x = variável temporária para só aparecer 4 cordéis na pagina principal -->
-        {% for c in cordeis %}
-          {% if c.destaque == True and x.valor < 4 %} 
-            <div class="card-cordel">
-              <a href="{{ url_for('cordel', id=c.id) }}">{{ c.titulo }}</a>
-            </div>
-            {% set x.valor = x.valor + 1 %}
-          {% endif %}
-        {% endfor %}
-      </div>
-    </section>
->>>>>>> c43794556027712cb540e3f7e73d369705def437
-
-  #text_index button {
-    border: none;
-    padding: 0.6rem 1.5rem;
-    border-radius: 8px;
-    background-color: #C4D0AB;
-  }
-
-  main.container-principal {
-    max-width: 1224px; 
-    width: 90%;       
-    margin: 0 auto;  
-  }
-
-<<<<<<< HEAD
-  .topo-index {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    margin: 2rem 0;
-  }
-
-  h1 {
-    font-size: 50px;
-  }
-
-  #text_index {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  #logo_index {
-    max-width: 500px;
-    width: 100%;
-    height: auto;
-  }
-
-  .secao_index {
-    margin: 3rem 0;
-  }
-</style>
 
 <main class="container-principal">
-  
   <section class="topo-index">
     <div id="text_index">
       <h1>Em Campus de Cordel</h1>
@@ -108,36 +64,22 @@
         <button onclick="window.location.href='{{ url_for('sobre_nos') }}'">Saiba mais</button>
       </p>
     </div>
-    
     <figure>
       <img id="logo_index" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     </figure>
   </section>
-
   {% include 'components/index-varal.html' %}
-
   <section class="secao_index">
     <h1>Explorar</h1>
     TODO
   </section>
-
   <section class="secao_index">
     <h1><a href="{{ url_for('novidades') }}">Novidades</a></h1>
     TODO
   </section>
-
   <section class="secao_index">
     <h1>Destaques</h1>
     TODO
   </section>
-
 </main>
-
-{% include 'components/footer.html' %}
-=======
-    <section class="secao_index">
-      <h1>Destaques</h1>
-      TODO
-    </section>
->>>>>>> c43794556027712cb540e3f7e73d369705def437
 {% endblock %}
