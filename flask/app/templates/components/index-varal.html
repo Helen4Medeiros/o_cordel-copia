@@ -39,7 +39,10 @@
     display: none;
   }
 
-  .card-cordel {
+  .card-cordel-lilas,
+  .card-cordel-laranja,
+  .card-cordel-azul,
+  .card-cordel-verde {
     position: relative;
     flex: 0 0 216px;
     width: 216px;
@@ -51,13 +54,15 @@
     box-sizing: border-box;
   }
 
-  .card-cordel a {
+  .card-cordel-lilas a,
+  .card-cordel-laranja a,
+  .card-cordel-azul a,
+  .card-cordel-verde a {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
-    background-color: #FF7E70;
     color: black;
     text-decoration: none;
     padding: 10px;
@@ -106,6 +111,11 @@
 
   .btn-carrossel.prev { left: -50px; }
   .btn-carrossel.next { right: -50px; }
+
+  .card-cordel-lilas   { background-color: #DAC9E8; }
+  .card-cordel-laranja { background-color: #EFC9A4; }
+  .card-cordel-azul    { background-color: #C9DDD6; }
+  .card-cordel-verde   { background-color: #B7CBA0; }
 </style>
 
 <section id="carrossel_index">
@@ -113,12 +123,12 @@
     <img src="{{ url_for('static', filename='img/seta-esquerda.svg') }}" alt="Anterior">
   </button>
   <svg class="corda-varal" viewBox="0 0 1224 80" preserveAspectRatio="none">
-    <path d="M 0 25 Q 612 75 1224 25" stroke="#000000" stroke-width="1.5" fill="none" />
+    <path d="M 0 25 Q 612 75 1224 25" stroke="#000000" stroke-width="2.5" fill="none" />
   </svg>
   <div class="carrossel-varal" id="containerCordeis">
     {% for c in cordeis %}
       {% if c.destaque %}
-        <div class="card-cordel">
+        <div class="card-cordel-{{loop.cycle('lilas', 'laranja', 'azul', 'verde') }}">
           <a href="{{ url_for('cordel', id=c.id) }}">
             <div class="card-border">
               {{ c.titulo }}
@@ -145,7 +155,7 @@
   }
 
   function atualizarParabola() {
-    const cards = container.querySelectorAll('.card-cordel');
+    const cards = container.querySelectorAll('[class^="card-cordel-"]'); // seleciona elementos cuja classe começa com 'card-cordel-'
     const larguraTotal = sectionVaral.clientWidth;
 
     cards.forEach(card => {

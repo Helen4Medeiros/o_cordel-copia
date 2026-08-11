@@ -2,7 +2,10 @@
 
 {% block head %}
   <style>
-      .card-cordel{
+      .card-cordel-lilas,
+      .card-cordel-laranja,
+      .card-cordel-azul,
+      .card-cordel-verde {
         background-color: #C4D0AB;
         width: 150px;
         text-align: center;
@@ -69,13 +72,42 @@
       .destaque-autores{
         display: flex;
         justify-content: space-around;
+        width: 100%;
       }
-
+      .card-container{
+        margin: 2rem 0 2rem 0;
+      }
+      .aleatorizar{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: fit-content;
+        margin-left: auto;
+        gap: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-left: auto;
+      }
+      .aleatorizar img {
+        width: 20px;
+        height: 20px;
+        display: block;
+        order: 2;
+      }
+      .saiba-mais{
+        cursor: pointer;
+      }
       .card-autor-lilas   { background-color: #DAC9E8; }
       .card-autor-laranja { background-color: #EFC9A4; }
       .card-autor-azul    { background-color: #C9DDD6; }
       .card-autor-verde   { background-color: #B7CBA0; }
 
+      .card-cordel-lilas   { background-color: #DAC9E8; }
+      .card-cordel-laranja { background-color: #EFC9A4; }
+      .card-cordel-azul    { background-color: #C9DDD6; }
+      .card-cordel-verde   { background-color: #B7CBA0; }
+      
   </style>
 {% endblock %}
 
@@ -96,27 +128,51 @@
         occaecat cupidatat non proident, sunt in culpa qui officia 
         deserunt mollit anim id est laborum.
         <br><br><br>
-        <button onclick="window.location.href='{{ url_for('sobre_nos') }}'">Saiba mais</button>
+        <button class="saiba-mais" onclick="window.location.href='{{ url_for('sobre_nos') }}'">Saiba mais</button>
       </p>
     </div>
     <figure>
       <img id="logo_index" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     </figure>
   </section>
+  <section class="secao_index">
   {% include 'components/index-varal.html' %}
+  </section>
   <section class="secao_index">
     <h2>Explorar</h2>
-    TODO
+    <div class="card-container" id="containerExplorar">
+    {% for c in cordeis_aleatorios %}
+      {% if loop.index <= 4 %} <!-- mostra apenas os 4 primeiros cordéis -->
+        <div class="card-cordel-{{loop.cycle('lilas', 'laranja', 'azul', 'verde') }}">
+          <a href="{{ url_for('cordel', id=c.id) }}">
+            <div class="card-border">
+              {{ c.titulo }}
+            </div>
+          </a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <button class="aleatorizar" id="btnAleatorizar">
+  <img src="{{ url_for('static', filename='img/btn-aleatorizar.png') }}" alt="Botão Aleatorizar">
+    Aleatorizar
+  </button>
   </section>
   <section class="secao_index">
     <h2>Novidades</h2>
     <div class="card-container">
     {% for c in cordeis_recentes %}
-      <div class="card-cordel">
-        {{ c.titulo }}
-      </div>
+      {% if loop.index <= 4 %} <!-- mostra apenas os 4 primeiros cordéis -->
+        <div class="card-cordel-{{loop.cycle('lilas', 'laranja', 'azul', 'verde') }}">
+          <a href="{{ url_for('cordel', id=c.id) }}">
+            <div class="card-border">
+              {{ c.titulo }}
+            </div>
+          </a>
+        </div>
+      {% endif %}
     {% endfor %}
-    </div>
+  </div>
   </section>
   <section class="secao_index">
     <div class="destaque-cabecalho">
@@ -147,6 +203,16 @@
 </main>
 
 <script>
-  
+  document.addEventListener('DOMContentLoaded', function () {
+      const container = document.getElementById('containerExplorar');
+      const botao = document.getElementById('btnAleatorizar');
+      botao.addEventListener('click', function () {
+          const cards = Array.from(container.children);
+          cards.sort(() => Math.random() - 0.5);
+          cards.forEach(function (card) {
+              container.appendChild(card);
+          });
+      });
+  });
 </script>
 {% endblock %}

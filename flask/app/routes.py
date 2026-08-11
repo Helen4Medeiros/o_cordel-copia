@@ -4,6 +4,7 @@ from app import myApp, dao, forms, models, sql_engine, login_manager
 from markupsafe import Markup, escape
 from datetime import datetime, time, timezone
 from werkzeug.utils import secure_filename
+import random
 import os
 
 
@@ -35,10 +36,10 @@ def index():
     daoCordel = get_CordelDAO() # classe CordelDAO
     cordeis = daoCordel.todos() # método todos -> chama todos os cordéis; os cordéis são guardados na variável 'cordeis'
     cordeis_recentes = daoCordel.get_recentes()
-
+    cordeis_aleatorios = random.sample(cordeis, len(cordeis))
     daoAutor = get_AutorDAO() # classe AutorDAO
     autores_destaque = daoAutor.get_destaques()
-    return render_template('index.html', cordeis=cordeis, cordeis_recentes=cordeis_recentes, autores=autores_destaque)
+    return render_template('index.html', cordeis=cordeis, cordeis_recentes=cordeis_recentes, cordeis_aleatorios=cordeis_aleatorios, autores=autores_destaque)
 
 @myApp.route('/autor/<int:id>/imagem')
 def autor_imagem(id):
