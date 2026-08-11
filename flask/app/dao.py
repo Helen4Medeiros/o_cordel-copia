@@ -243,6 +243,27 @@ class AutorDAO:
             result.close()
             return dados
 
+    def get_destaques(self):
+        sql = text(
+            "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
+            "FROM autor a LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
+            "LEFT JOIN curso c ON ac.id_curso = c.id "
+            "WHERE a.destaque = TRUE "
+            "ORDER BY a.id"
+        )
+        with self.sql_engine.connect() as connection:
+            autores = []
+            result = connection.execute(sql)
+            id_autor = None
+            for r in result:
+                if id_autor != r[0]: 
+                    id_autor = r[0]
+                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
+                    autores.append(a)
+                if r[8]:
+                    a.cursos.append(models.Curso(r[8], r[9]))
+            return autores
+        
 class CordelDAO:
     def __init__(self, sql_engine):
         self.sql_engine = sql_engine
@@ -573,6 +594,24 @@ class CordelDAO:
         return id_cordel
     def todos(self):
         sql = text("SELECT id, titulo, subtitulo, destaque, visivel, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel")
+        with self.sql_engine.connect() as connection:
+            cordeis = []
+            result = connection.execute(sql)
+            for r in result:
+                cordel = models.Cordel()
+                cordel.id = r[0]
+                cordel.titulo = r[1]
+                cordel.subtitulo = r[2]
+                cordel.destaque = r[3]
+                cordel.visivel = r[4]
+                cordel.data_publicacao = r[5]
+                cordel.data_cadastro = r[6]
+                cordel.imagem_capa = r[7]
+                cordel.mime_type_capa = r[8]
+                cordeis.append(cordel)
+            return cordeis
+    def get_recentes(self):
+        sql = text("SELECT id, titulo, subtitulo, destaque, visivel, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel ORDER BY data_publicacao DESC")
         with self.sql_engine.connect() as connection:
             cordeis = []
             result = connection.execute(sql)

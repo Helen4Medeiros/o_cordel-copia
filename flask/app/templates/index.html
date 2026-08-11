@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 
 {% block head %}
-  <script>
-  </script>
   <style>
+      .card-cordel{
+        background-color: #C4D0AB;
+        width: 150px;
+        text-align: center;
+      }
+      .card-container{
+        display: flex;
+        justify-content: space-around;
+      }
       #text_index button {
         border: none;
         padding: 0.6rem 1.5rem;
@@ -39,9 +46,37 @@
       }
 
       .secao_index {
-        margin: 3rem 0;
+        padding: 2rem 1.5rem;
       }
-      </style>
+
+      .destaque-cabecalho {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+
+      .destaque-cabecalho .ver-mais {
+        font-size: 1.2rem;
+        color: #000;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .destaque-card{
+        width: 150px;
+        text-align: center;
+      }
+      .destaque-autores{
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .card-autor-lilas   { background-color: #DAC9E8; }
+      .card-autor-laranja { background-color: #EFC9A4; }
+      .card-autor-azul    { background-color: #C9DDD6; }
+      .card-autor-verde   { background-color: #B7CBA0; }
+
+  </style>
 {% endblock %}
 
 {% block content %}
@@ -70,16 +105,48 @@
   </section>
   {% include 'components/index-varal.html' %}
   <section class="secao_index">
-    <h1>Explorar</h1>
+    <h2>Explorar</h2>
     TODO
   </section>
   <section class="secao_index">
-    <h1><a href="{{ url_for('novidades') }}">Novidades</a></h1>
-    TODO
+    <h2>Novidades</h2>
+    <div class="card-container">
+    {% for c in cordeis_recentes %}
+      <div class="card-cordel">
+        {{ c.titulo }}
+      </div>
+    {% endfor %}
+    </div>
   </section>
   <section class="secao_index">
-    <h1>Destaques</h1>
-    TODO
+    <div class="destaque-cabecalho">
+      <h2>De quem todo mundo tá falando</h2>
+      <a href="" class="ver-mais">
+        Ver Mais <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="destaque-container">
+      <ul class="destaque-autores" id="containerAutores">
+        {% for a in autores %}
+          {% if a.destaque %}
+          <li class="card-autor-{{loop.cycle('lilas', 'laranja', 'azul', 'verde') }}">
+            <a href="">
+              <span class="card-autor-nome">{{ a.pseudonimo or a.nome }}</span>
+              <img class="card-autor-foto" 
+                src="{{ url_for('autor_imagem', id=a.id) }}" 
+                alt="Foto de {{ a.pseudonimo or a.nome }}" 
+                loading="lazy">
+            </a>
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
   </section>
 </main>
+
+<script>
+  
+</script>
 {% endblock %}

@@ -34,8 +34,20 @@ def get_AdministradorDAO():
 def index():
     daoCordel = get_CordelDAO() # classe CordelDAO
     cordeis = daoCordel.todos() # método todos -> chama todos os cordéis; os cordéis são guardados na variável 'cordeis'
-    return render_template('index.html', cordeis=cordeis)
+    cordeis_recentes = daoCordel.get_recentes()
 
+    daoAutor = get_AutorDAO() # classe AutorDAO
+    autores_destaque = daoAutor.get_destaques()
+    return render_template('index.html', cordeis=cordeis, cordeis_recentes=cordeis_recentes, autores=autores_destaque)
+
+@myApp.route('/autor/<int:id>/imagem')
+def autor_imagem(id):
+    daoAutor = get_AutorDAO()
+    dados = daoAutor.get_foto_autor(id, is_admin=False)
+    if not dados or not dados[0]:
+        return '', 404
+    imagem, mime_type = dados
+    return Response(imagem, mimetype=mime_type or 'image/jpeg')
 ### Login ###
 
 @login_manager.user_loader
