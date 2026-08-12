@@ -20,7 +20,9 @@ CREATE TABLE autor (
     pseudonimo VARCHAR(100), 
     contato TEXT,
     descricao VARCHAR(200),
-    destaque BOOL NOT NULL
+    destaque BOOL NOT NULL,
+    imagem_autor BYTEA,
+    mime_type_img VARCHAR(100)
 );
 CREATE TABLE autor_curso (
     id_autor BIGINT NOT NULL,

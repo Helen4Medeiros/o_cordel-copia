@@ -593,7 +593,8 @@ class CordelDAO:
             connection.commit()
         return id_cordel
     def todos(self):
-        sql = text("SELECT id, titulo, subtitulo, destaque, visivel, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel")
+        sql = text("SELECT id, titulo, subtitulo, destaque, visivel, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel") # fazer uma função parecida com essa usando só o id na consulta, usar o random para sortear 5 cordeis
+                                                                                                                                                # e montar os cordeis com base nos ids, ou sortear direto na consulta postgres (opção melhor)
         with self.sql_engine.connect() as connection:
             cordeis = []
             result = connection.execute(sql)
