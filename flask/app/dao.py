@@ -72,7 +72,7 @@ class AutorDAO:
 
     def get_por_ID(self, id_autor):
         sql = text(
-            "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
+            "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
             "FROM autor a LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
             "LEFT JOIN curso c ON ac.id_curso = c.id WHERE a.id = :id_autor"
         )
@@ -82,7 +82,7 @@ class AutorDAO:
                 print(r)
                 if i == 0:
                     id_autor = r[0]
-                    autor = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
+                    autor = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], email=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
                 if r[8]:
                     autor.cursos.append(models.Curso(r[8], r[9]))
             return autor
@@ -145,7 +145,7 @@ class AutorDAO:
                 return autores
             # 2ª etapa: obtém os autores e os cursos associados
             segunda_consulta = text(
-                "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
+                "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
                 "FROM autor a LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
                 "LEFT JOIN curso c ON ac.id_curso = c.id WHERE a.id IN :ids_autores "
                 "ORDER BY a.id"
@@ -156,7 +156,7 @@ class AutorDAO:
             for r in result_segunda_consulta:
                 if id_autor != r[0]: # mudou o autor
                     id_autor = r[0]
-                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
+                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], email=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
                     autores.append(a)
                 if r[8]:
                     a.cursos.append(models.Curso(r[8], r[9]))
@@ -166,7 +166,7 @@ class AutorDAO:
         params = {
             "nome": autor.nome,
             "pseudonimo": autor.pseudonimo,
-            "contato": autor.contato,
+            "email": autor.email,
             "descricao": autor.descricao,
             "destaque": autor.destaque
         }
@@ -175,7 +175,7 @@ class AutorDAO:
                 UPDATE autor
                 SET nome = :nome,
                     pseudonimo = :pseudonimo,
-                    contato = :contato,
+                    email = :email,
                     descricao = :descricao,
                     destaque = :destaque
             """
@@ -190,9 +190,9 @@ class AutorDAO:
         else:
             sql = """
                 INSERT INTO autor
-                (nome, pseudonimo, contato, descricao, destaque, imagem_autor, mime_type_img)
+                (nome, pseudonimo, email, descricao, destaque, imagem_autor, mime_type_img)
                 VALUES
-                (:nome, :pseudonimo, :contato, :descricao, :destaque,
+                (:nome, :pseudonimo, :email, :descricao, :destaque,
                 :imagem_autor, :mime_type_img)
                 RETURNING id
             """
@@ -245,7 +245,7 @@ class AutorDAO:
 
     def get_destaques(self):
         sql = text(
-            "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
+            "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
             "FROM autor a LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
             "LEFT JOIN curso c ON ac.id_curso = c.id "
             "WHERE a.destaque = TRUE "
@@ -258,7 +258,7 @@ class AutorDAO:
             for r in result:
                 if id_autor != r[0]: 
                     id_autor = r[0]
-                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], contato=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
+                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], email=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
                     autores.append(a)
                 if r[8]:
                     a.cursos.append(models.Curso(r[8], r[9]))
@@ -443,7 +443,7 @@ class CordelDAO:
             result_b.close()
             # 3º passo: obter autores com respectivos cursos
             sql_c = text(
-                "SELECT a.id, a.nome, a.pseudonimo, a.contato, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, cu.id, cu.nome, co.id "
+                "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, cu.id, cu.nome, co.id "
                 "FROM autor a "
                 "LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
                 "LEFT JOIN curso cu ON cu.id = ac.id_curso "
@@ -456,7 +456,7 @@ class CordelDAO:
             id_autor = None
             cursos_dic = {} # chave: id do curso, valor: objeto curso
             for r in result_c:
-                # guia visual de índices do sql_c: r[0]=a.id, r[1]=a.nome, r[2]=a.pseudonimo, r[3]=a.contato, r[4]=a.descricao
+                # guia visual de índices do sql_c: r[0]=a.id, r[1]=a.nome, r[2]=a.pseudonimo, r[3]=a.email, r[4]=a.descricao
                                                         # r[5]=a.destaque, r[6]=a.imagem_autor, r[7]=a.mime_type_img, r[8]=cu.id, r[9]=cu.nome, r[10]=co.id
                 if id_autor != r[0]: # mudou o autor
                     id_autor = r[0]

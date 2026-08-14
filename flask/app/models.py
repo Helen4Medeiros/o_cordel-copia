@@ -12,11 +12,11 @@ class Categoria:
         self.nome = nome
 
 class Autor:
-    def __init__(self, id, nome, pseudonimo, contato, cursos, descricao, destaque, imagem_autor, mime_type_img):
+    def __init__(self, id, nome, pseudonimo, email, cursos, descricao, destaque, imagem_autor, mime_type_img):
         self.id = id
         self.nome = nome
         self.pseudonimo = pseudonimo
-        self.contato = contato
+        self.email = email
         self.cursos = [*cursos] if cursos else []
         self.descricao = descricao
         self.destaque = destaque

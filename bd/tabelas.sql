@@ -18,9 +18,11 @@ CREATE TABLE autor (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
     nome VARCHAR(100) NOT NULL, 
     pseudonimo VARCHAR(100), 
-    contato TEXT,
-    descricao VARCHAR(200),
-    destaque BOOL NOT NULL
+    email VARCHAR(100),
+    descricao VARCHAR(300),
+    destaque BOOL,
+    imagem_autor BYTEA,
+    mime_type_img VARCHAR(100)
 );
 CREATE TABLE autor_curso (
     id_autor BIGINT NOT NULL,

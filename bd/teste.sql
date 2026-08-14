@@ -14,13 +14,15 @@ BEGIN
     INSERT INTO autor_curso (id_autor, id_curso) VALUES (id_autor_criado, 1);
 
     -- Autores sem cordel
-    INSERT INTO autor (nome, pseudonimo, contato) VALUES ('Francisco Martins', 'Chico Bioca', 'chicobioca@mail.com');
-    INSERT INTO autor (nome, contato) VALUES ('Francisco Silva', 'fsilva@mail.com');
-    INSERT INTO autor (nome, contato) VALUES ('Francisco Carlos', 'fcarlos@mail.com');
+    INSERT INTO autor (nome, pseudonimo, email) VALUES ('Francisco Martins', 'Chico Bioca', 'chicobioca@email.com');
+    INSERT INTO autor (nome, email) VALUES ('Francisco Silva', 'fsilva@email.com');
+    INSERT INTO autor (nome, email) VALUES ('Francisco Carlos', 'fcarlos@meail.com');
+    INSERT INTO autor (nome, pseudonimo, email, descricao) VALUES ('Kelvin de França', 'Zé Mimoso dos Versos Phynos', 'mimosinho@email.com',
+     'Aluno do 3° ano de Informática para Internet, este mimosinho surpreendeu a todos com sua elegância ao rimar.');
 
     -- Cordel 
     INSERT INTO cordel (titulo, data_publicacao, data_cadastro, destaque, visivel, id_cadastrante) 
-        VALUES ('O Coronavírus', '2024-03-01', '2024-10-20', FALSE, TRUE, 1)
+        VALUES ('O Coronavírus', '2024-03-01', '2024-10-20', FALSE, TRUE, id_admin_criado)
         RETURNING id INTO id_cordel_criado;
     INSERT INTO cordel_autor (id_autor, id_cordel) VALUES (id_autor_criado, id_cordel_criado);
     INSERT INTO cordel_categoria (id_categoria, id_cordel) VALUES (1, id_cordel_criado);

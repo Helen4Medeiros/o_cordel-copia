@@ -28,8 +28,8 @@
           {{ formAutor.pseudonimo() }}<br>
         </p>
         <p>
-          {{ formAutor.contato.label }}<br>
-          {{ formAutor.contato() }}<br>
+          {{ formAutor.email.label }}<br>
+          {{ formAutor.email() }}<br>
         </p>
         <p>
           {{ formAutor.id_cursos.label }}<br>
@@ -86,7 +86,7 @@
         <tr>
           <th>Nome</th>
           <th>Pseudônimo</th>
-          <th>Contato</th>
+          <th>Email</th>
           <th>Cursos</th>
           <th>Descrição</th>
           <th>Em destaque</th>
@@ -100,7 +100,7 @@
         <tr>
           <td>{{ a.nome }}</td>
           <td>{{ a.pseudonimo }}</td>
-          <td>{{ a.contato }}</td>
+          <td>{{ a.email }}</td>
           <td>
             <ul>
               {% for c in a.cursos %}

@@ -27,7 +27,7 @@ class AutorForm(FlaskForm):
     id = HiddenField('id')
     nome = StringField('Nome*', validators=[DataRequired()])
     pseudonimo = StringField('Pseudônimo')
-    contato = StringField('Contato')
+    email = StringField('Email')
     id_cursos = SelectMultipleField('Cursos')
     descricao = StringField('Descrição')
     destaque = BooleanField('Em destaque')

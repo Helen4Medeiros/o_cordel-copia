@@ -446,7 +446,7 @@ def salvar_autor():
             id=formAutor.id.data, 
             nome=formAutor.nome.data, 
             pseudonimo=formAutor.pseudonimo.data, 
-            contato=formAutor.contato.data, 
+            email=formAutor.email.data, 
             cursos=[],
             descricao=formAutor.descricao.data,
             destaque=formAutor.destaque.data,
@@ -487,7 +487,7 @@ def alterar_autor(id):
     formAutor.id.data = autor.id
     formAutor.nome.data = autor.nome
     formAutor.pseudonimo.data = autor.pseudonimo
-    formAutor.contato.data = autor.contato
+    formAutor.email.data = autor.email
     formAutor.id_cursos.data = [str(c.id) for c in autor.cursos]
     formAutor.descricao.data = autor.descricao
     formAutor.destaque.data = autor.destaque
