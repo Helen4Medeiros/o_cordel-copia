@@ -190,7 +190,7 @@ class AutorDAO:
         else:
             sql = """
                 INSERT INTO autor
-                (nome, pseudonimo, email, descricao, destaque, imagem_autor, mime_type_img)
+                (nome, pseudonimo, email, descricao, destaque, visivel, imagem_autor, mime_type_img)
                 VALUES
                 (:nome, :pseudonimo, :email, :descricao, :destaque,
                 :imagem_autor, :mime_type_img)
@@ -224,19 +224,14 @@ class AutorDAO:
             connection.execute(sql, {"id": id_autor})
             connection.commit()
 
-    def get_foto_autor(self, id_autor, is_admin):
-        sql = (
+    def get_foto_autor(self, id_autor):
+        sql = text(
             "SELECT imagem_autor, mime_type_img "
             "FROM autor a "
             "WHERE id = :id "
         )
-        if not is_admin:
-            sql += "AND visivel = TRUE "
         with self.sql_engine.connect() as connection:
-            result = connection.execute(
-                text(sql), 
-                {"id": id_autor}
-            )
+            result = connection.execute(sql, {"id": id_autor})
             dados = None
             for r in result:
                 dados = r[0], r[1]

@@ -44,11 +44,11 @@ def index():
 @myApp.route('/autor/<int:id>/imagem')
 def autor_imagem(id):
     daoAutor = get_AutorDAO()
-    dados = daoAutor.get_foto_autor(id, is_admin=False)
+    dados = daoAutor.get_foto_autor(id)
     if not dados or not dados[0]:
         return '', 404
     imagem, mime_type = dados
-    return Response(imagem, mimetype=mime_type or 'image/jpeg')
+    return Response(bytes(imagem), mimetype=mime_type or 'image/jpeg')
 ### Login ###
 
 @login_manager.user_loader
