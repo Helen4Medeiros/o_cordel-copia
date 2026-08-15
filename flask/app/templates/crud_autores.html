@@ -48,8 +48,6 @@
           <figure id="container-foto">
             {% if autor and autor.imagem_autor %}
               <img src="{{ url_for('foto_autor', id=autor.id) }}" alt="Foto do autor" width="150">
-            {% else %}
-              <h3>Sem foto</h3>
             {% endif %}
           </figure>
           {{ formAutor.imagem_autor() }}

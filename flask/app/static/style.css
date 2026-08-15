@@ -46,17 +46,48 @@ p.numeracao{
     font-family: "xilosa";
 }
 nav.menu_admin li{
-    display: inline;
+    display: block;
+}
+nav.menu {
+    max-width: 1224px;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding-top: 2rem;
 }
 nav.menu ul{
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin: 0;
+    padding: 0;
 }
 nav.menu li{
-    display: inline;
+    display: block;
+    list-style-type: none;
+}
+nav.menu li a {
+    text-decoration: none;
+    color: black;
+    border-radius: 2rem;
+    display: block;
+    width: 130%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+nav.menu li a:hover {
+    text-decoration: none;
+    color: white;
+    background-color: black;
+    border-radius: 2rem;
+    transition: 0.5s;
 }
 nav.menu img.logo{
     width: 3em;
-    vertical-align: middle;
+    display: block;
 }
 section p.numeracao{
     text-align: center;

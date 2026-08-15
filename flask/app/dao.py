@@ -190,7 +190,7 @@ class AutorDAO:
         else:
             sql = """
                 INSERT INTO autor
-                (nome, pseudonimo, email, descricao, destaque, visivel, imagem_autor, mime_type_img)
+                (nome, pseudonimo, email, descricao, destaque, imagem_autor, mime_type_img)
                 VALUES
                 (:nome, :pseudonimo, :email, :descricao, :destaque,
                 :imagem_autor, :mime_type_img)
@@ -588,8 +588,9 @@ class CordelDAO:
             connection.commit()
         return id_cordel
     def todos(self):
-        sql = text("SELECT id, titulo, subtitulo, destaque, visivel, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel") # fazer uma função parecida com essa usando só o id na consulta, usar o random para sortear 5 cordeis
-                                                                                                                                                # e montar os cordeis com base nos ids, ou sortear direto na consulta postgres (opção melhor)
+        sql = text("SELECT id, titulo, subtitulo, destaque, visivel," \
+        " data_publicacao, data_cadastro, imagem_capa, mime_type_capa" \
+        " FROM cordel ")
         with self.sql_engine.connect() as connection:
             cordeis = []
             result = connection.execute(sql)
@@ -612,19 +613,61 @@ class CordelDAO:
             cordeis = []
             result = connection.execute(sql)
             for r in result:
-                cordel = models.Cordel()
-                cordel.id = r[0]
-                cordel.titulo = r[1]
-                cordel.subtitulo = r[2]
-                cordel.destaque = r[3]
-                cordel.visivel = r[4]
-                cordel.data_publicacao = r[5]
-                cordel.data_cadastro = r[6]
-                cordel.imagem_capa = r[7]
-                cordel.mime_type_capa = r[8]
-                cordeis.append(cordel)
+                if r[4] == True: #só pega os cordéis que estiverem visíveis
+                    cordel = models.Cordel()
+                    cordel.id = r[0]
+                    cordel.titulo = r[1]
+                    cordel.subtitulo = r[2]
+                    cordel.destaque = r[3]
+                    cordel.visivel = r[4]
+                    cordel.data_publicacao = r[5]
+                    cordel.data_cadastro = r[6]
+                    cordel.imagem_capa = r[7]
+                    cordel.mime_type_capa = r[8]
+                    cordeis.append(cordel)
             return cordeis
-
+    def get_todos_visitante(self):
+        sql = text("SELECT id, titulo, subtitulo, destaque, visivel, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel")
+        with self.sql_engine.connect() as connection:
+            cordeis = []
+            result = connection.execute(sql)
+            for r in result:
+                if r[4] == True: #só pega os cordéis que estiverem visíveis
+                    cordel = models.Cordel()
+                    cordel.id = r[0]
+                    cordel.titulo = r[1]
+                    cordel.subtitulo = r[2]
+                    cordel.destaque = r[3]
+                    cordel.visivel = r[4]
+                    cordel.data_publicacao = r[5]
+                    cordel.data_cadastro = r[6]
+                    cordel.imagem_capa = r[7]
+                    cordel.mime_type_capa = r[8]
+                    cordeis.append(cordel)
+            return cordeis
+    def get_aleatorios(self):
+        sql = text("SELECT id, titulo, subtitulo, destaque, visivel," \
+        " data_publicacao, data_cadastro, imagem_capa, mime_type_capa" \
+        " FROM cordel " \
+        " ORDER BY RANDOM()" \
+        " LIMIT 5 ")
+        with self.sql_engine.connect() as connection:
+            cordeis = []
+            result = connection.execute(sql)
+            for r in result:
+                if r[4] == True: #só pega os cordéis que estiverem visíveis
+                    cordel = models.Cordel()
+                    cordel.id = r[0]
+                    cordel.titulo = r[1]
+                    cordel.subtitulo = r[2]
+                    cordel.destaque = r[3]
+                    cordel.visivel = r[4]
+                    cordel.data_publicacao = r[5]
+                    cordel.data_cadastro = r[6]
+                    cordel.imagem_capa = r[7]
+                    cordel.mime_type_capa = r[8]
+                    cordeis.append(cordel)
+            return cordeis
 # ADMINISTRADOR 
 class AdministradorDAO:
     def __init__(self, sql_engine):
