@@ -42,28 +42,31 @@ body.pagina-inicial{
         url('img/pag-inicial/nuvem-grande.svg'),
         url('img/pag-inicial/bandeiras.svg'),
         url('img/pag-inicial/cacto-footer1.svg'),
-        url('img/pag-inicial/cacto-footer2.svg');
+        url('img/pag-inicial/cacto-footer2.svg'),
+        url('img/pag-inicial/borboleta.svg'),
+        url('img/pag-inicial/caranguejo.svg');
+
     background-position:
-        88% 29%, /* referente a 'nuvem-grande' */
-        10% 31%,
-        88% 68%,
-        21% 78%,
-        100% 93%,
-        0% 91%; /* referente a 'cacto-footer1' */
+        90% 34% , /* referente a 'nuvem-grande' */
+        8% 37.5%,
+        90% 72%,
+        -3% 78%,
+        97% 94%,
+        3% 93%, /* referente a 'cacto-footer1' */
+        34% 37%,
+        67% 94%;
+
     background-size: 
         590px auto, 
         580px auto,
         590px auto,
         540px auto,
+        210px auto,
         240px auto,
-        340px auto;
-    background-repeat:
-        no-repeat,
-        no-repeat,
-        no-repeat,
-        no-repeat,
-        no-repeat,
-        no-repeat;
+        40px auto,
+        40px auto;
+
+    background-repeat: no-repeat;
 }
 h1, h2, h3{
     font-family: "xilosa";
