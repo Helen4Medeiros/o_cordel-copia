@@ -28,6 +28,10 @@
     font-weight: bold;
     font-style: italic;
 }
+* {
+    margin: 0;
+    padding: 0;
+}
 body{
     font-family: "Roboto";
     background-size: 100% 70rem;
@@ -70,6 +74,7 @@ nav.menu ul{
 nav.menu li{
     display: block;
     list-style-type: none;
+    font-family: "xilosa";
 }
 nav.menu li a {
     text-decoration: none;
@@ -108,20 +113,15 @@ button, input[type=submit] {
 #text_index{
     max-width: 30em;
 }
-
 table{
     border: 2px solid black;
     border-collapse: collapse;
-
     margin: 5px;
-
     width: 30%;
 }
 td {
     border: 2px solid black;
 }
-
-
 table td, table th {
     text-align: center;
 }

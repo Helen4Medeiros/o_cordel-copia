@@ -2,15 +2,36 @@
 
 {% block head %}
     <style>
-        .tudo{
-            max-width: 1920px;
-            margin: 0 auto;
+        * {
+            margin: 0;
             padding: 0;
+            font-family: 'xilosa';
         }
-        .main-layout{
+        .container-topo {
+            max-width: 1224px; 
+            width: 90%;       
+            margin: 0 auto; 
+        }
+        .topo-index {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        h1 {
+            font-size: 50px;
+        }
+        #text_index {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 1rem;
+            font-family: 'xilosa', sans-serif;
+        }
+        #logo_index {
+            max-width: 660px;
+            width: 100%;
+            height: auto;
         }
         .top-section {
             display: flex;
@@ -18,17 +39,17 @@
             align-items: center;
             gap: 40px;
         }
-        .container{
+        .container-cards{
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-template-areas:
                 "quem-s-n quem-s-n oq-f onde-e"
                 "como-t-c como-p-f como-p-f onde-e";
             grid-auto-rows: 400px;
-            margin-top: 50px;
-            width: 100%;
+            max-width: 1620px; /* deixar responsivo */
+            margin: 0 auto;
         }
-        .container .card {
+        .container-cards .card {
             width: auto;
             height: 100%;
             border: 1px solid black;
@@ -158,29 +179,29 @@
 
 {% block content %}
 <div class="tudo">
-    <header class="main-layout">
-        <div class="top-section">
-            <div class="texto-index">
-            <h1>Em Campus de Cordel</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore magna 
-                aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                Duis aute irure dolor in reprehenderit in voluptate velit 
-                esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
-                occaecat cupidatat non proident, sunt in culpa qui officia 
-                deserunt mollit anim id est laborum.
-                <br>
-            </p>
-            </div>
-            <figure>
-                <img id="logo_index" src="{{ url_for('static', filename='logo.png') }}">
-            </figure>
+    <main class="container-principal">
+        <div class="container-topo">
+            <section class="topo-index">
+                <div id="text_index">
+                    <h1>Em Campus de Cordel</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                        sed do eiusmod tempor incididunt ut labore et dolore magna 
+                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                        ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                        Duis aute irure dolor in reprehenderit in voluptate velit 
+                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                        occaecat cupidatat non proident, sunt in culpa qui officia 
+                        deserunt mollit anim id est laborum.
+                        <br><br><br>
+                    </p>
+                </div>
+                <figure>
+                <img id="logo_index" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+                </figure>
+            </section>
         </div>
-    </header>
-    <main>
-        <div class="container">
+        <div class="container-cards">
             <div class="card quem-s-n">
                 <div class="texto-card">
                     <h2>Quem Somos Nós?</h2>

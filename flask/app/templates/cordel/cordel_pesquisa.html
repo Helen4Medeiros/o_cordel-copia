@@ -1,11 +1,37 @@
 {% extends "base.html" %}
 
 {% block head %}
-  <script>
-  </script>
+  <style>
+    .container-form{
+      margin: 0 auto;
+      width: 370px;
+      border: 1px black solid;
+      padding: 1rem;
+    }
+    h1{
+      text-align: center;
+    }
+    form p{
+      padding: 0.3rem;
+    }
+    th{
+      padding: 1rem;
+    }
+    td{
+      padding: 0.5rem 2rem 0.5rem 2rem;
+    }
+    table{
+      margin: 0 auto;
+    }
+    .container-tabela{
+      padding: 2rem 0 2rem 0;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
+
+  <div class="container-form">
     <h1>Pesquisa de Cordéis</h1>
     <div>
       {% with messages = get_flashed_messages() %}
@@ -68,7 +94,9 @@
         </p>
       </form>
     </div>
+  </div>
 
+  <div class="container-tabela">
     <table>
       <thead>
         <tr>
@@ -131,4 +159,5 @@
       {% endfor %}
       </tbody>
     </table>
+  </div>
 {% endblock %}

@@ -14,12 +14,11 @@
 
   .corda-varal {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    width: 100vw;
     height: 80px;
-    pointer-events: none;
-    z-index: 10;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -1rem;
   }
 
   .carrossel-varal {
@@ -123,7 +122,7 @@
     <img src="{{ url_for('static', filename='img/seta-esquerda.svg') }}" alt="Anterior">
   </button>
   <svg class="corda-varal" viewBox="0 0 1224 80" preserveAspectRatio="none">
-    <path d="M 0 25 Q 612 75 1224 25" stroke="#000000" stroke-width="2.5" fill="none" />
+    <path d="M 0 25 Q 612 120 1224 25" stroke="#000000" stroke-width="3" fill="none" />
   </svg>
   <div class="carrossel-varal" id="containerCordeis">
     {% for c in cordeis %}
