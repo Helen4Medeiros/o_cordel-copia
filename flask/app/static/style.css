@@ -34,9 +34,36 @@
 }
 body{
     font-family: "Roboto";
-    background-size: 100% 70rem;
-    background-position: center;
-    background-repeat: no-repeat;
+}
+body.pagina-inicial{
+    background-image: 
+        url('img/pag-inicial/nuvem-grande.svg'),
+        url('img/pag-inicial/lua.svg'),
+        url('img/pag-inicial/nuvem-grande.svg'),
+        url('img/pag-inicial/bandeiras.svg'),
+        url('img/pag-inicial/cacto-footer1.svg'),
+        url('img/pag-inicial/cacto-footer2.svg');
+    background-position:
+        88% 29%, /* referente a 'nuvem-grande' */
+        10% 31%,
+        88% 68%,
+        21% 78%,
+        100% 93%,
+        0% 91%; /* referente a 'cacto-footer1' */
+    background-size: 
+        590px auto, 
+        580px auto,
+        590px auto,
+        540px auto,
+        240px auto,
+        340px auto;
+    background-repeat:
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat;
 }
 h1, h2, h3{
     font-family: "xilosa";
@@ -53,28 +80,14 @@ p.numeracao{
     font-family: "xilosa";
 }
 nav.menu_admin li{
-    display: block;
-}
-nav.menu {
-    max-width: 1224px;
-    width: 90%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    padding-top: 2rem;
+    display: inline;
 }
 nav.menu ul{
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    margin: 0;
-    padding: 0;
+    display: inline-block;
 }
 nav.menu li{
     display: block;
     list-style-type: none;
-    font-family: "xilosa";
 }
 nav.menu li a {
     text-decoration: none;
@@ -95,7 +108,7 @@ nav.menu li a:hover {
 }
 nav.menu img.logo{
     width: 3em;
-    display: block;
+    vertical-align: middle;
 }
 section p.numeracao{
     text-align: center;

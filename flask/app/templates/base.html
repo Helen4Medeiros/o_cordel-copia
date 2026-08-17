@@ -16,12 +16,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" rel='stylesheet' type='text/css'> 
     {% block head %}{% endblock %}
   </head>
-  <body>
+  <body class="{% block body_class %}{% endblock %}">
     {% include 'menu.html' %}
-
     {% block content %}{% endblock %}
     {% if not current_user.is_authenticated %}
       {% include 'components/footer.html' %}
     {% endif %}
   </body>
+</html>
 </html>
