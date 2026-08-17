@@ -23,7 +23,7 @@
       main.container-principal {
         max-width: 1224px; 
         width: 90%;       
-        margin: 0 auto;  
+        margin: 0 auto; 
       }
       .topo-index {
         display: flex;
@@ -48,7 +48,7 @@
         height: auto;
       }
 
-      .secao_index {
+      .secao_index-1 {
         padding: 2rem 1.5rem;
       }
 
@@ -174,10 +174,10 @@
       <img id="logo_index" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     </figure>
   </section>
-  <section class="secao_index">
+  <section class="secao_index-1">
   {% include 'components/index-varal.html' %}
   </section>
-  <section class="secao_index">
+  <section class="secao_index-2">
     <h2>Explorar</h2>
     <div class="card-container" id="containerExplorar">
     {% for c in cordeis_aleatorios %}
@@ -197,7 +197,7 @@
     Aleatorizar
   </button>
   </section>
-  <section class="secao_index">
+  <section class="secao_index-3">
     <h2>Novidades</h2>
     <div class="card-container">
     {% for c in cordeis_recentes %}
@@ -213,7 +213,7 @@
     {% endfor %}
   </div>
   </section>
-  <section class="secao_index">
+  <section class="secao_index-4">
     <div class="destaque-cabecalho">
       <h2>De quem todo mundo tá falando</h2>
       <a href="" class="ver-mais">
@@ -227,11 +227,11 @@
           {% if a.destaque %}
           <li class="card-autor-{{loop.cycle('lilas', 'laranja', 'azul', 'verde') }}">
             <a href="">
+              <span class="card-autor-nome">{{ a.pseudonimo or a.nome }}</span>
               <img class="card-autor-foto" 
               src="{{ url_for('autor_imagem', id=a.id) }}" 
               alt="Foto de {{ a.pseudonimo or a.nome }}" 
               loading="lazy">
-              <span class="card-autor-nome">{{ a.pseudonimo or a.nome }}</span>
             </a>
           </li>
           {% endif %}

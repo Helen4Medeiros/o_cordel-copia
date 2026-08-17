@@ -30,6 +30,9 @@
 }
 body{
     font-family: "Roboto";
+    background-size: 100% 70rem;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 h1, h2, h3{
     font-family: "xilosa";
