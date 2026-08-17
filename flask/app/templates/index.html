@@ -180,18 +180,8 @@
   <section class="secao_index-2">
     <h2>Explorar</h2>
     <div class="card-container" id="containerExplorar">
-    {% for c in cordeis_aleatorios %}
-      {% if loop.index <= 4 %} <!-- mostra apenas os 4 primeiros cordéis -->
-        <div class="card-cordel-{{loop.cycle('lilas', 'laranja', 'azul', 'verde') }}">
-          <a href="{{ url_for('cordel', id=c.id) }}">
-            <div class="card-border">
-              {{ c.titulo }}
-            </div>
-          </a>
-        </div>
-      {% endif %}
-    {% endfor %}
-  </div>
+      {% include 'components/cards-cordeis.html' %}
+    </div>
   <button class="aleatorizar" id="btnAleatorizar">
   <img src="{{ url_for('static', filename='img/btn-aleatorizar.png') }}" alt="Botão Aleatorizar">
     Aleatorizar
@@ -242,16 +232,16 @@
 </main>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-      const container = document.getElementById('containerExplorar');
-      const botao = document.getElementById('btnAleatorizar');
-      botao.addEventListener('click', function () {
-          const cards = Array.from(container.children);
-          cards.sort(() => Math.random() - 0.5);
-          cards.forEach(function (card) {
-              container.appendChild(card);
-          });
-      });
-  });
+document.addEventListener('DOMContentLoaded', function () {
+    const botao = document.getElementById('btnAleatorizar');
+    const container = document.getElementById('containerExplorar');
+    botao.addEventListener('click', function () {
+        fetch('/cordeis_aleatorios')
+            .then(response => response.text())
+            .then(html => {
+                container.innerHTML = html;
+            });
+    });
+});
 </script>
 {% endblock %}

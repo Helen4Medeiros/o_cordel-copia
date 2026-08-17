@@ -34,12 +34,18 @@ def get_AdministradorDAO():
 @myApp.route('/index')
 def index():
     daoCordel = get_CordelDAO() # classe CordelDAO
-    cordeis = daoCordel.todos() # método todos -> chama todos os cordéis; os cordéis são guardados na variável 'cordeis'
+    cordeis = daoCordel.get_todos_visitante() # método get_todos_visitante -> chama todos os cordéis que tem a coluna "visível" == True em uma lista;
+    cordeis_aleatorios = daoCordel.get_aleatorios()
     cordeis_recentes = daoCordel.get_recentes()
-    cordeis_aleatorios = random.sample(cordeis, len(cordeis))
     daoAutor = get_AutorDAO() # classe AutorDAO
     autores_destaque = daoAutor.get_destaques()
     return render_template('index.html', cordeis=cordeis, cordeis_recentes=cordeis_recentes, cordeis_aleatorios=cordeis_aleatorios, autores=autores_destaque)
+
+@myApp.route('/cordeis_aleatorios')
+def cordeis_aleatorios():
+    daoCordel = get_CordelDAO()
+    cordeis_aleatorios = daoCordel.get_aleatorios()
+    return render_template('components/cards-cordeis.html', cordeis_aleatorios=cordeis_aleatorios)
 
 @myApp.route('/autor/<int:id>/imagem')
 def autor_imagem(id):
@@ -488,9 +494,11 @@ def alterar_autor(id):
     formAutor.nome.data = autor.nome
     formAutor.pseudonimo.data = autor.pseudonimo
     formAutor.email.data = autor.email
+
     formAutor.id_cursos.data = [str(c.id) for c in autor.cursos]
     formAutor.descricao.data = autor.descricao
     formAutor.destaque.data = autor.destaque
+    formAutor.imagem_autor.data = autor.imagem_autor
     return render_template('crud_autores.html', formAutor=formAutor, formPesquisa=formPesquisa, titulo="Autores")
 
 @myApp.route('/foto_autor/<id>')
