@@ -86,21 +86,29 @@ nav.menu_admin li{
     display: inline;
 }
 nav.menu ul{
-    display: inline-block;
+    display: flex;
+    gap: 1rem;
+}
+nav.menu{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
 }
 nav.menu li{
     display: block;
     list-style-type: none;
+    font-family: "xilosa";
 }
 nav.menu li a {
     text-decoration: none;
     color: black;
     border-radius: 2rem;
     display: block;
-    width: 130%;
     height: 40px;
-    text-align: center;
     line-height: 40px;
+    padding: 0 1rem;
+    text-align: center;
 }
 nav.menu li a:hover {
     text-decoration: none;
