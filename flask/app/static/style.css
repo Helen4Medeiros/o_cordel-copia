@@ -47,14 +47,14 @@ body.pagina-inicial{
         url('img/pag-inicial/caranguejo.svg');
 
     background-position:
-        90% 34% , /* referente a 'nuvem-grande' */
-        8% 37.5%,
-        90% 72%,
-        -3% 78%,
+        90% 32%, /* referente a 'nuvem-grande' */
+        5% 35%,
+        103% 72%,
+        -3% 77%,
         97% 94%,
-        3% 93%, /* referente a 'cacto-footer1' */
-        34% 37%,
-        67% 94%;
+        3% 92.7%, /* referente a 'cacto-footer1' */
+        34% 34%,
+        67% 93.9%;
 
     background-size: 
         590px auto, 
