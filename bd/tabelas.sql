@@ -20,7 +20,7 @@ CREATE TABLE autor (
     pseudonimo VARCHAR(100), 
     email VARCHAR(100),
     descricao VARCHAR(300),
-    destaque BOOL,
+    destaque BOOL NOT NULL DEFAULT FALSE,
     visualizacoes INTEGER NOT NULL DEFAULT 0,
     imagem_autor BYTEA,
     mime_type_img VARCHAR(100)
@@ -36,7 +36,7 @@ CREATE TABLE cordel (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
     titulo TEXT NOT NULL, 
     subtitulo TEXT, 
-    destaque BOOL NOT NULL, 
+    destaque BOOL NOT NULL DEFAULT FALSE, 
     visivel BOOL NOT NULL, 
     visualizacoes INTEGER NOT NULL DEFAULT 0,
     data_publicacao DATE NOT NULL, 
