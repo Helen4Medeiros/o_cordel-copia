@@ -12,7 +12,7 @@ class Categoria:
         self.nome = nome
 
 class Autor:
-    def __init__(self, id, nome, pseudonimo, email, cursos, descricao, destaque, imagem_autor, mime_type_img):
+    def __init__(self, id, nome, pseudonimo, email, cursos, descricao, destaque, visualizacoes, imagem_autor, mime_type_img):
         self.id = id
         self.nome = nome
         self.pseudonimo = pseudonimo
@@ -20,6 +20,7 @@ class Autor:
         self.cursos = [*cursos] if cursos else []
         self.descricao = descricao
         self.destaque = destaque
+        self.visualizacoes = 0
         self.imagem_autor = imagem_autor
         self.mime_type_img = mime_type_img
 
@@ -30,6 +31,7 @@ class Cordel:
         self.subtitulo = None
         self.destaque = False
         self.visivel = True
+        self.visualizacoes = 0
         self.data_publicacao = None
         self.data_cadastro = None
         self.imagem_capa = None

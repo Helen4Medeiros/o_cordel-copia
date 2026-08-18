@@ -72,7 +72,7 @@ class AutorDAO:
 
     def get_por_ID(self, id_autor):
         sql = text(
-            "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
+            "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.visualizacoes,a.imagem_autor, a.mime_type_img, c.id, c.nome "
             "FROM autor a LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
             "LEFT JOIN curso c ON ac.id_curso = c.id WHERE a.id = :id_autor"
         )
@@ -82,9 +82,9 @@ class AutorDAO:
                 print(r)
                 if i == 0:
                     id_autor = r[0]
-                    autor = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], email=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
-                if r[8]:
-                    autor.cursos.append(models.Curso(r[8], r[9]))
+                    autor = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], email=r[3], cursos=[], descricao=r[4], destaque=r[5], visualizacoes=r[6], imagem_autor=r[7], mime_type_img=r[8])
+                if r[9]:
+                    autor.cursos.append(models.Curso(r[9], r[10]))
             return autor
         
     def get_nomes_as_dic(self, nome_ou_pseudonimo):
@@ -145,7 +145,7 @@ class AutorDAO:
                 return autores
             # 2ª etapa: obtém os autores e os cursos associados
             segunda_consulta = text(
-                "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
+                "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.visualizacoes, a.imagem_autor, a.mime_type_img, c.id, c.nome "
                 "FROM autor a LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
                 "LEFT JOIN curso c ON ac.id_curso = c.id WHERE a.id IN :ids_autores "
                 "ORDER BY a.id"
@@ -156,10 +156,10 @@ class AutorDAO:
             for r in result_segunda_consulta:
                 if id_autor != r[0]: # mudou o autor
                     id_autor = r[0]
-                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], email=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
+                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], email=r[3], cursos=[], descricao=r[4], destaque=r[5], visualizacoes=r[6], imagem_autor=r[7], mime_type_img=r[8])
                     autores.append(a)
-                if r[8]:
-                    a.cursos.append(models.Curso(r[8], r[9]))
+                if r[9]:
+                    a.cursos.append(models.Curso(r[9], r[10]))
             return autores
         
     def salvar(self, autor, id_cursos):
@@ -240,7 +240,7 @@ class AutorDAO:
 
     def get_destaques(self):
         sql = text(
-            "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, c.id, c.nome "
+            "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.visualizacoes, a.imagem_autor, a.mime_type_img, c.id, c.nome "
             "FROM autor a LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
             "LEFT JOIN curso c ON ac.id_curso = c.id "
             "WHERE a.destaque = TRUE "
@@ -253,10 +253,10 @@ class AutorDAO:
             for r in result:
                 if id_autor != r[0]: 
                     id_autor = r[0]
-                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], email=r[3], cursos=[], descricao=r[4], destaque=r[5], imagem_autor=r[6], mime_type_img=r[7])
+                    a = models.Autor(id=r[0], nome=r[1], pseudonimo=r[2], email=r[3], cursos=[], descricao=r[4], destaque=r[5], visualizacoes=r[6], imagem_autor=r[7], mime_type_img=r[8])
                     autores.append(a)
-                if r[8]:
-                    a.cursos.append(models.Curso(r[8], r[9]))
+                if r[9]:
+                    a.cursos.append(models.Curso(r[9], r[10]))
             return autores
         
 class CordelDAO:
@@ -266,8 +266,8 @@ class CordelDAO:
     def get_por_ID(self, id, is_admin):
         sql_a = (
             "SELECT c.id, c.titulo, c.subtitulo, c.destaque, "
-            " c.visivel, c.data_publicacao, c.data_cadastro, "
-            " c.mime_type_capa, cat.id, cat.nome, a.id, a.nome, a.pseudonimo, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img "
+            " c.visivel, c.visualizacoes, c.data_publicacao, c.data_cadastro, "
+            " c.mime_type_capa, cat.id, cat.nome, a.id, a.nome, a.pseudonimo, a.descricao, a.destaque, a.visualizacoes, a.imagem_autor, a.mime_type_img "
             "FROM cordel c "
             "INNER JOIN cordel_categoria cc ON c.id = cc.id_cordel "
             "INNER JOIN categoria cat ON cat.id = cc.id_categoria "
@@ -290,15 +290,16 @@ class CordelDAO:
                     cordel.subtitulo = r[2]
                     cordel.destaque = r[3]
                     cordel.visivel = r[4]
-                    cordel.data_publicacao = r[5]
-                    cordel.data_cadastro = r[6]
-                    cordel.mime_type_capa = r[7]
+                    cordel.visualizacoes = r[5]
+                    cordel.data_publicacao = r[6]
+                    cordel.data_cadastro = r[7]
+                    cordel.mime_type_capa = r[8]
                     cordel.autores = autores
                     cordel.categorias = categorias
-                if r[8]:
-                    categorias[r[8]] = models.Categoria(r[8], r[9])
-                if r[10]:
-                    autores[r[10]] = models.Autor(r[10], r[11], r[12], None, None, r[13], r[14], r[15], r[16])
+                if r[9]:
+                    categorias[r[9]] = models.Categoria(r[9], r[10])
+                if r[11]:
+                    autores[r[11]] = models.Autor(r[11], r[12], r[13], None, None, r[14], r[15], r[16], r[17], r[18])
             cordel.categorias = [c for c in categorias.values()]
             cordel.autores = [a for a in autores.values()]
             result_a.close()
@@ -438,7 +439,7 @@ class CordelDAO:
             result_b.close()
             # 3º passo: obter autores com respectivos cursos
             sql_c = text(
-                "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.imagem_autor, a.mime_type_img, cu.id, cu.nome, co.id "
+                "SELECT a.id, a.nome, a.pseudonimo, a.email, a.descricao, a.destaque, a.visualizacoes, a.imagem_autor, a.mime_type_img, cu.id, cu.nome, co.id "
                 "FROM autor a "
                 "LEFT JOIN autor_curso ac ON a.id = ac.id_autor "
                 "LEFT JOIN curso cu ON cu.id = ac.id_curso "
@@ -452,18 +453,18 @@ class CordelDAO:
             cursos_dic = {} # chave: id do curso, valor: objeto curso
             for r in result_c:
                 # guia visual de índices do sql_c: r[0]=a.id, r[1]=a.nome, r[2]=a.pseudonimo, r[3]=a.email, r[4]=a.descricao
-                                                        # r[5]=a.destaque, r[6]=a.imagem_autor, r[7]=a.mime_type_img, r[8]=cu.id, r[9]=cu.nome, r[10]=co.id
+                                                        # r[5]=a.destaque, r[6]=a.visualizacoes, r[8]=a.mime_type_img, r[9]=cu.id, r[10]=cu.nome, r[11]=co.id
                 if id_autor != r[0]: # mudou o autor
                     id_autor = r[0]
-                    a = models.Autor(r[0], r[1], r[2], r[3], None, r[4], r[5], r[6], r[7])
-                    id_cordel = r[10]
+                    a = models.Autor(r[0], r[1], r[2], r[3], None, r[4], r[5], r[6], r[7], r[8])
+                    id_cordel = r[11]
                     cordeis_dic[id_cordel].autores.append(a)
-                if r[8]: # autor tem curso
-                    id_curso = r[8]
+                if r[9]: # autor tem curso
+                    id_curso = r[9]
                     if id_curso in cursos_dic:
                         c = cursos_dic[id_curso]
                     else:
-                        c = models.Curso(r[8], r[9])
+                        c = models.Curso(r[9], r[10])
                         cursos_dic[id_curso] = c
                     if c not in a.cursos:
                         a.cursos.append(c)
@@ -473,10 +474,10 @@ class CordelDAO:
     def _inserir(self, cordel, id_cadastrante, connection):
         sql_a = text(
             "INSERT INTO cordel (titulo, subtitulo, destaque, "
-                "visivel, data_publicacao, data_cadastro, "
+                "visivel, visualizacoes, data_publicacao, data_cadastro, "
                 "imagem_capa, mime_type_capa, id_cadastrante) "
             "VALUES (:titulo, :subtitulo, :destaque, "
-                ":visivel, :data_publicacao, :data_cadastro, "
+                ":visivel, :visualizacoes, :data_publicacao, :data_cadastro, "
                 ":imagem_capa, :mime_type_capa, :id_cadastrante) "
             "RETURNING id"
         )
@@ -485,6 +486,7 @@ class CordelDAO:
             "subtitulo": cordel.subtitulo, 
             "destaque": cordel.destaque, 
             "visivel": cordel.visivel, 
+            "visualizacoes": cordel.visualizacoes,
             "data_publicacao": cordel.data_publicacao.strftime("%Y-%m-%d"), 
             "data_cadastro": date.today().strftime("%Y-%m-%d"), 
             "imagem_capa": cordel.imagem_capa, 
@@ -589,7 +591,7 @@ class CordelDAO:
         return id_cordel
     def todos(self):
         sql = text("SELECT id, titulo, subtitulo, destaque, visivel," \
-        " data_publicacao, data_cadastro, imagem_capa, mime_type_capa" \
+        " visualizacoes, data_publicacao, data_cadastro, imagem_capa, mime_type_capa" \
         " FROM cordel ")
         with self.sql_engine.connect() as connection:
             cordeis = []
@@ -601,14 +603,15 @@ class CordelDAO:
                 cordel.subtitulo = r[2]
                 cordel.destaque = r[3]
                 cordel.visivel = r[4]
-                cordel.data_publicacao = r[5]
-                cordel.data_cadastro = r[6]
-                cordel.imagem_capa = r[7]
-                cordel.mime_type_capa = r[8]
+                cordel.visualizacoes = r[5]
+                cordel.data_publicacao = r[6]
+                cordel.data_cadastro = r[7]
+                cordel.imagem_capa = r[8]
+                cordel.mime_type_capa = r[9]
                 cordeis.append(cordel)
             return cordeis
     def get_recentes(self):
-        sql = text("SELECT id, titulo, subtitulo, destaque, visivel, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel ORDER BY data_publicacao DESC")
+        sql = text("SELECT id, titulo, subtitulo, destaque, visivel, visualizacoes, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel ORDER BY data_publicacao DESC")
         with self.sql_engine.connect() as connection:
             cordeis = []
             result = connection.execute(sql)
@@ -620,14 +623,15 @@ class CordelDAO:
                     cordel.subtitulo = r[2]
                     cordel.destaque = r[3]
                     cordel.visivel = r[4]
-                    cordel.data_publicacao = r[5]
-                    cordel.data_cadastro = r[6]
-                    cordel.imagem_capa = r[7]
-                    cordel.mime_type_capa = r[8]
+                    cordel.visualizacoes = r[5]
+                    cordel.data_publicacao = r[6]
+                    cordel.data_cadastro = r[7]
+                    cordel.imagem_capa = r[8]
+                    cordel.mime_type_capa = r[9]
                     cordeis.append(cordel)
             return cordeis
     def get_todos_visitante(self):
-        sql = text("SELECT id, titulo, subtitulo, destaque, visivel, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel")
+        sql = text("SELECT id, titulo, subtitulo, destaque, visivel, visualizacoes, data_publicacao, data_cadastro, imagem_capa, mime_type_capa FROM cordel")
         with self.sql_engine.connect() as connection:
             cordeis = []
             result = connection.execute(sql)
@@ -639,15 +643,83 @@ class CordelDAO:
                     cordel.subtitulo = r[2]
                     cordel.destaque = r[3]
                     cordel.visivel = r[4]
-                    cordel.data_publicacao = r[5]
-                    cordel.data_cadastro = r[6]
-                    cordel.imagem_capa = r[7]
-                    cordel.mime_type_capa = r[8]
+                    cordel.visualizacoes = r[5]
+                    cordel.data_publicacao = r[6]
+                    cordel.data_cadastro = r[7]
+                    cordel.imagem_capa = r[8]
+                    cordel.mime_type_capa = r[9]
                     cordeis.append(cordel)
             return cordeis
+    def _listar(self, id_categoria=None, ordem=None):
+        sql = """
+            SELECT
+                c.id,
+                c.titulo,
+                c.subtitulo,
+                c.destaque,
+                c.visivel,
+                c.visualizacoes,
+                c.data_publicacao,
+                c.data_cadastro,
+                c.imagem_capa,
+                c.mime_type_capa
+            FROM cordel c
+            LEFT JOIN cordel_categoria cc 
+                ON c.id = cc.id_cordel
+            WHERE c.visivel = TRUE
+        """
+        params = {}
+
+        if id_categoria:
+            sql += """
+                AND EXISTS (
+                    SELECT 1
+                    FROM cordel_categoria cc
+                    WHERE cc.id_cordel = c.id
+                        AND cc.id_categoria = :id_categoria
+                )
+            """
+        params['id_categoria'] = id_categoria
+        # Ordenação por filtros
+        if ordem == 'alfabetica':
+            sql += """ 
+                ORDER BY c.titulo ASC 
+            """
+        elif ordem == 'recentes':
+            sql += """ 
+                ORDER BY c.data_publicacao DESC
+            """
+        elif ordem == 'relevantes':
+            sql += """ 
+                ORDER BY c.visualizacoes DESC
+            """
+        else:
+            sql += """ 
+                ORDER BY RANDOM() 
+            """
+        with self.sql_engine.connect() as connection:
+            result = connection.execute(text(sql), params)
+            cordeis = []
+
+            for r in result:
+                cordel = models.Cordel()
+                cordel.id = r[0]
+                cordel.titulo = r[1]
+                cordel.subtitulo = r[2]
+                cordel.destaque = r[3]
+                cordel.visivel = r[4]
+                cordel.visualizacoes = r[5]
+                cordel.data_publicacao = r[6]
+                cordel.data_cadastro = r[7]
+                cordel.imagem_capa = r[8]
+                cordel.mime_type_capa = r[9]
+
+                cordeis.append(cordel)
+            return cordeis
+
     def get_aleatorios(self):
         sql = text("SELECT id, titulo, subtitulo, destaque, visivel," \
-        " data_publicacao, data_cadastro, imagem_capa, mime_type_capa" \
+        " visualizacoes, data_publicacao, data_cadastro, imagem_capa, mime_type_capa" \
         " FROM cordel " \
         " WHERE visivel = TRUE " \
         " ORDER BY RANDOM()" \
@@ -662,10 +734,11 @@ class CordelDAO:
                     cordel.subtitulo = r[2]
                     cordel.destaque = r[3]
                     cordel.visivel = r[4]
-                    cordel.data_publicacao = r[5]
-                    cordel.data_cadastro = r[6]
-                    cordel.imagem_capa = r[7]
-                    cordel.mime_type_capa = r[8]
+                    cordel.visualizacoes = r[5]
+                    cordel.data_publicacao = r[6]
+                    cordel.data_cadastro = r[7]
+                    cordel.imagem_capa = r[8]
+                    cordel.mime_type_capa = r[9]
                     cordeis.append(cordel)
             return cordeis
 # ADMINISTRADOR 

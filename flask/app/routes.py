@@ -55,6 +55,13 @@ def autor_imagem(id):
         return '', 404
     imagem, mime_type = dados
     return Response(bytes(imagem), mimetype=mime_type or 'image/jpeg')
+
+### Página de Cordéis 
+@myApp.route('/cordeis')
+def listar_cordeis():
+    cordeis = get_CordelDAO()._listar()
+    return render_template('cordel/listar_cordeis.html', cordeis=cordeis, titulo='Cordéis')
+
 ### Login ###
 
 @login_manager.user_loader

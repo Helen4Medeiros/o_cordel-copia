@@ -21,6 +21,7 @@ CREATE TABLE autor (
     email VARCHAR(100),
     descricao VARCHAR(300),
     destaque BOOL,
+    visualizacoes INTEGER NOT NULL DEFAULT 0,
     imagem_autor BYTEA,
     mime_type_img VARCHAR(100)
 );
@@ -37,6 +38,7 @@ CREATE TABLE cordel (
     subtitulo TEXT, 
     destaque BOOL NOT NULL, 
     visivel BOOL NOT NULL, 
+    visualizacoes INTEGER NOT NULL DEFAULT 0,
     data_publicacao DATE NOT NULL, 
     data_cadastro DATE NOT NULL, 
     imagem_capa BYTEA, 

@@ -10,3 +10,8 @@ INSERT INTO curso (nome) VALUES('Mineração');
 
 INSERT INTO categoria (nome) VALUES('Sátira');
 INSERT INTO categoria (nome) VALUES('Comédia');
+INSERT INTO categoria (nome) VALUES('Ficção Científica');
+INSERT INTO categoria (nome) VALUES('Fantasia');
+INSERT INTO categoria (nome) VALUES('Romance');
+INSERT INTO categoria (nome) VALUES('Aventura');
+INSERT INTO categoria (nome) VALUES('Mistério');
