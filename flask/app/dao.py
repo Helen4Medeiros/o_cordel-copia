@@ -649,13 +649,13 @@ class CordelDAO:
         sql = text("SELECT id, titulo, subtitulo, destaque, visivel," \
         " data_publicacao, data_cadastro, imagem_capa, mime_type_capa" \
         " FROM cordel " \
+        " WHERE visivel = TRUE " \
         " ORDER BY RANDOM()" \
         " LIMIT 5 ")
         with self.sql_engine.connect() as connection:
             cordeis = []
             result = connection.execute(sql)
             for r in result:
-                if r[4] == True: #só pega os cordéis que estiverem visíveis
                     cordel = models.Cordel()
                     cordel.id = r[0]
                     cordel.titulo = r[1]

@@ -1,5 +1,5 @@
 {% for c in cordeis_aleatorios %}
-    {% if loop.index <= 4 %}
+    {% if loop.index <= 5 %}
         <div class="card-cordel-{{ loop.cycle('lilas', 'laranja', 'azul', 'verde') }}">
             <a href="{{ url_for('cordel', id=c.id) }}">
                 <div class="card-border">

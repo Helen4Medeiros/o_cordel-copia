@@ -223,7 +223,7 @@ pagina-inicial
     </div>
     <div class="card-container">
     {% for c in cordeis_recentes %}
-      {% if loop.index <= 4 %} <!-- mostra apenas os 4 primeiros cordéis -->
+      {% if loop.index <= 5 %} <!-- mostra apenas os 5 primeiros cordéis -->
         <div class="card-cordel-{{loop.cycle('lilas', 'laranja', 'azul', 'verde') }}">
           <a href="{{ url_for('cordel', id=c.id) }}">
             <div class="card-border">
@@ -268,10 +268,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const botao = document.getElementById('btnAleatorizar');
     const container = document.getElementById('containerExplorar');
     botao.addEventListener('click', function () {
-        fetch('/cordeis_aleatorios')
-            .then(response => response.text())
-            .then(html => {
-                container.innerHTML = html;
+        fetch('/cordeis_aleatorios') // fetch - faz uma requisição HTTP para /cordeis_aleatorios
+            .then(response => response.text()) // servidor responde e guarda a resposta como texto
+            .then(html => { // guarda o conteúdo q veio do flask (html) 
+                container.innerHTML = html; // substitui o conteúdo html do 'container' pelo conteúdo q veio do flask 
             });
     });
 });
